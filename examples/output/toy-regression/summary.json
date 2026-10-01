@@ -1,0 +1,85 @@
+{
+  "label": "TOY SYNTHETIC DEMONSTRATION \u2014 not a scientific contribution",
+  "hypothesis": "OLS outperforms a training-mean predictor on known linear synthetic data.",
+  "protocol": {
+    "train_samples": 80,
+    "test_samples": 80,
+    "seeds": [
+      11,
+      23,
+      37,
+      51,
+      71
+    ],
+    "baseline": "training target mean",
+    "treatment": "ordinary least squares",
+    "primary_metric": "held-out MSE",
+    "tuning": "none",
+    "data_generator": "y = 2*x + 0.5 + Normal(0, 0.25); x ~ Uniform(-1,1)"
+  },
+  "environment": {
+    "python": "3.14.7",
+    "platform": "Windows-11-10.0.26200-SP0"
+  },
+  "code_sha256": "a2dbdffd1e4787dd7fb2aff6c2ccbc1666d88a27ea930d5ad302a57e0e88bfbb",
+  "observed": {
+    "baseline_mean_mse": 1.3399947620800539,
+    "treatment_mean_mse": 0.06753275606148865,
+    "paired_mean_improvement": 1.2724620060185652,
+    "paired_min_improvement": 1.0407256655583361,
+    "paired_max_improvement": 1.4463854697636982,
+    "improved_seed_count": 5
+  },
+  "runs": [
+    {
+      "seed": 11,
+      "baseline_mse": 1.5221250393542674,
+      "treatment_mse": 0.0757395695905692,
+      "paired_improvement": 1.4463854697636982,
+      "slope": 2.034112785522337,
+      "intercept": 0.47625085305871684,
+      "data_sha256": "0a7e01f7660cf09a971994ac367f1a571004c08d160a2b30d54c5d5917ed8ccb"
+    },
+    {
+      "seed": 23,
+      "baseline_mse": 1.3925576245384745,
+      "treatment_mse": 0.06547632232544678,
+      "paired_improvement": 1.3270813022130277,
+      "slope": 1.9125555654229214,
+      "intercept": 0.4915891496905235,
+      "data_sha256": "dab7fec5c1a028ac8ec15cc0c2f4af52ccd60cb0f4c51966c29b913f0b141916"
+    },
+    {
+      "seed": 37,
+      "baseline_mse": 1.3705101906942803,
+      "treatment_mse": 0.05907763795460838,
+      "paired_improvement": 1.311432552739672,
+      "slope": 2.0143569838519686,
+      "intercept": 0.4732139191655724,
+      "data_sha256": "2f5c52b5d9d2ec4014b687dd10dd79993c1e79a323da651d48fa0d5d2f5cd661"
+    },
+    {
+      "seed": 51,
+      "baseline_mse": 1.1188894911524083,
+      "treatment_mse": 0.07816382559407213,
+      "paired_improvement": 1.0407256655583361,
+      "slope": 1.974142739061566,
+      "intercept": 0.432861230800831,
+      "data_sha256": "eca0fb65d4cc1d5cf4e55f3c3ea265942584aaa8b2468a95a6b253b2b123cd30"
+    },
+    {
+      "seed": 71,
+      "baseline_mse": 1.295891464660839,
+      "treatment_mse": 0.05920642484274677,
+      "paired_improvement": 1.2366850398180922,
+      "slope": 2.0299448997131964,
+      "intercept": 0.5076629314481215,
+      "data_sha256": "2ece264e3d9f818a151ee549ed8b5cbf265789fd224351f28a67b5ab6d3f6579"
+    }
+  ],
+  "limits": [
+    "Designed linear toy problem favors OLS; this is a plumbing smoke test.",
+    "Seed variation is descriptive; no confidence interval or population claim.",
+    "No external dataset, model inference, or native subagent invocation occurs."
+  ]
+}

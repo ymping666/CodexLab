@@ -1,0 +1,5 @@
+# CodexLab: PI is the primary session; four specialists are spawned as needed.
+# Keep account model, reasoning, permissions, and authentication inherited.
+[agents]
+enabled = true
+max_concurrent_threads_per_session = 4

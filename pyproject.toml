@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "codexlab"
+version = "0.1.0"
+description = "A native multi-agent research workspace for Codex"
+requires-python = ">=3.11"
+dependencies = []
+license = {text = "MIT"}
+
+[project.scripts]
+codexlab = "codexlab.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["codexlab*"]
+
+[tool.setuptools.package-data]
+codexlab = ["templates/research/*", "templates/research/**/*", "templates/research/.codex/*", "templates/research/.codex/**/*"]
