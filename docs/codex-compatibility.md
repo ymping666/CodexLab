@@ -14,7 +14,7 @@ The optional CLI's standalone templates still include four custom TOML agents. T
 
 ## Verification boundaries
 
-The validation record in [RELEASE_CHECKS.md](../RELEASE_CHECKS.md) distinguishes Skill structure and installation checks, isolated initialization, optional CLI tests, and live research execution. A readable Skill or successful installation is not proof of correct delegation or research quality.
+The [validation summary](validation.md) distinguishes Skill structure and installation checks, isolated initialization, optional CLI tests, and live research execution. A readable Skill or successful installation is not proof of correct delegation or research quality.
 
 Historical runtime probe: local `codex-cli 0.159.2` on 2026-10-01 accepted the standalone project's configuration through `codex app-server --strict-config` and `config/read`, with enabled agents and a four-subagent limit. It used process-local trust, no inference turn and an independent sandbox profile. This is not a minimum supported version, an App account test, or validation of the new Skill workflow.
 

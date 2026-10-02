@@ -10,6 +10,13 @@ dist/
 my-lab/
 demo-lab/
 codexlab-runs/
+.local/
+marketing/
+DEVELOPMENT.md
+RELEASE_CHECKS.md
+assets/codexlab-launch-poster.png
+assets/image-prompts.md
+assets/poster-prompt.md
 auth.json
 .env
 .env.*

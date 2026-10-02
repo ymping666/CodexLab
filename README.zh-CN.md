@@ -71,9 +71,7 @@ Skill 包含**指令、角色任务约定和材料模板**。PI 将相应角色�
 
 每次研究收集问题范围、已有工作、方法方案、实验计划与记录，以及 Reviewer 反馈。可以打开文件检查：哪些主张有来源，哪些实验真的运行过，还有哪些反对意见没有解决。
 
-一个**八周科研冲刺目标**可以是文献地图、可证伪方案、可复现实验包和证据支持的初稿。可行性取决于范围与资源，不承诺论文录用。
-
-当前 Alpha 尚未验证完整科研产出或顶会录用。Skill 安装、真实子线程执行与科学证据，需要分别核验。
+当前 Alpha 提供科研工作流与材料工具，完整科研研究尚未完成端到端验证。详见 [验证与限制](docs/validation.md)。
 
 ## 可选 CLI 与项目配置
 
@@ -106,8 +104,7 @@ python -m codexlab serve ./demo-lab --port 8765
 - PI 指令、四个原生 worker 角色任务约定和科研材料模板。
 - 明确的证据交接；缺少原生 spawn 工具时标记串行回退。
 - 可选项目配置式 CLI、合成 Demo、结构检查和只读本地仪表盘。
-- [发布海报](assets/codexlab-launch-poster.png)、[三版小红书文案](marketing/xiaohongshu.md) 与 [Demo 分镜](marketing/demo-storyboard.md)。
 
-实际检查见 [开发说明](DEVELOPMENT.md)，后续计划见 [路线图](ROADMAP.md)。欢迎贡献引用查证、实验复现、审查反馈和角色交接方面的改进。代码采用 [MIT 协议](LICENSE)。
+详见 [验证与限制](docs/validation.md)、[贡献指南](CONTRIBUTING.md) 和 [路线图](ROADMAP.md)。欢迎贡献引用查证、实验复现、审查反馈和角色交接方面的改进。代码采用 [MIT 协议](LICENSE)。
 
 CodexLab 是独立项目，不是 OpenAI 官方产品。相关官方说明：[Skill 安装器](https://github.com/openai/skills/tree/main/skills/.system/skill-installer)、[子智能体](https://learn.chatgpt.com/docs/agent-configuration/subagents) 与 [认证](https://learn.chatgpt.com/docs/auth)。

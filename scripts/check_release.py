@@ -9,11 +9,11 @@ from urllib.parse import unquote
 def main() -> int:
     root = Path(__file__).resolve().parents[1]
     errors = []
-    required_documents = ("README.md", "README.zh-CN.md", "AGENTS.md", "START_HERE.md")
+    required_documents = ("README.md", "README.zh-CN.md", "AGENTS.md", "START_HERE.md", "CONTRIBUTING.md", "docs/validation.md")
     for filename in required_documents:
         if not (root / filename).is_file():
             errors.append(f"Missing project onboarding document: {filename}")
-    documents = set(root.glob("*.md")) | set((root / "docs").glob("*.md")) | set((root / "marketing").glob("*.md"))
+    documents = set(root.glob("*.md")) | set((root / "docs").glob("*.md"))
     for source in sorted(documents):
         filename = source.relative_to(root).as_posix()
         if not source.is_file():

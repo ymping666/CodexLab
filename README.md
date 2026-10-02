@@ -71,9 +71,7 @@ No additional model API key does not mean unlimited or free execution. Experimen
 
 Research runs collect scope, prior art, method proposals, experiment plans and records, and reviewer feedback. Inspect the files to see which claims have sources, which experiments actually ran, and which objections remain unresolved.
 
-An **eight-week sprint target** could be a prior-art map, a falsifiable proposal, a reproducible experiment package, and an evidence-backed draft. Feasibility depends on scope and resources; publication or acceptance is not guaranteed.
-
-The alpha has not established complete scientific output or conference acceptance. Installation, actual child-thread execution, and scientific evidence are separate things to verify.
+The alpha provides research workflows and artifact tooling. End-to-end scientific studies have not yet been validated; see [validation and limitations](docs/validation.md).
 
 ## Optional CLI and project configuration
 
@@ -106,8 +104,7 @@ The dashboard at `http://127.0.0.1:8765` is **read-only and does not execute age
 - PI instructions, four native worker role contracts, and research artifact templates.
 - Explicit evidence handoffs and a clearly labeled serial fallback when native spawning is unavailable.
 - An optional project-configured CLI, synthetic demo, structural checks, and read-only local dashboard.
-- A [launch poster](assets/codexlab-launch-poster.png), [three Xiaohongshu posts](marketing/xiaohongshu.md), and [demo storyboard](marketing/demo-storyboard.md).
 
-See [development notes](DEVELOPMENT.md) for verification and [the roadmap](ROADMAP.md) for planned work. Contributions are welcome for citation checks, reproducibility, reviewer feedback, and clearer handoffs. Code is licensed under [MIT](LICENSE).
+See [validation and limitations](docs/validation.md), [contributing](CONTRIBUTING.md), and [the roadmap](ROADMAP.md). Contributions are welcome for citation checks, reproducibility, reviewer feedback, and clearer handoffs. Code is licensed under [MIT](LICENSE).
 
 CodexLab is an independent project, not an official OpenAI product. Relevant official references: [Skill installer](https://github.com/openai/skills/tree/main/skills/.system/skill-installer), [subagents](https://learn.chatgpt.com/docs/agent-configuration/subagents), and [authentication](https://learn.chatgpt.com/docs/auth).

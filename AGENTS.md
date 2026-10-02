@@ -16,4 +16,6 @@ An existing standalone research workspace's closer AGENTS.md remains its PI cont
 
 ## Maintenance checks
 
+Keep the public repository focused on installable code, tests, user documentation and contributor guidance. Promotion drafts, social posts, image-generation prompts and internal coordination notes belong in ignored local storage.
+
 Run the appropriate existing tests and `python scripts/check_release.py`. Preserve template placeholders `{{PROJECT_NAME}}` and `{{TOPIC}}`, empty ledgers, no-overwrite behavior, manifest compatibility and UTF-8 text. Test the Skill from an isolated copy that contains no surrounding repository. Do not treat parse checks, file-copy tests or manual material reviews as proof of model execution or scientific validity. The browser dashboard remains read-only.

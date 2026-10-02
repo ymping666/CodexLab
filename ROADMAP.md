@@ -8,7 +8,7 @@
 - Research scope, literature, method, experiment and review handoffs.
 - Optional CLI initialization, status, kickoff prompts and evidence gates; a read-only artifact dashboard.
 - Labeled synthetic demo and a runnable toy reproducibility example.
-- English and Chinese README, demo images and launch copy.
+- English and Chinese installation guides, architecture documentation and interface previews.
 
 ## Next iteration — validate with real users
 
@@ -24,4 +24,4 @@ Compare a single-agent workflow against the five-role workflow on the same task 
 - Reusable domain workflows and integrations for citation libraries and experiment trackers.
 - Verified research case studies with source code, raw results and human authorship decisions.
 
-An eight-week research sprint is a planning format, not a promised publication outcome. Prioritize one reproducible evidence package before increasing the number of concurrent projects.
+Prioritize one reproducible evidence package before increasing the number of concurrent projects.
