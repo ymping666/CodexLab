@@ -1,5 +1,7 @@
 # {{PROJECT_NAME}} — CodexLab research contract
 
+This is the active research workspace, with its own PI context. If an ancestor repository AGENTS.md is also loaded, its bootstrap-only instructions do not reinitialize this lab; this closer research contract governs lab work. Keep research artifacts here rather than editing the source repository or templates. Use this contract in a new Codex App chat after opening this directory as a separate project and reviewing project trust. Do not assume another directory's config hot-loads in an existing chat.
+
 The primary Codex session is the Principal Investigator (PI). Use four named native specialists: `literature`, `method`, `experiment`, and `reviewer`. This project explicitly requests subagent delegation for bounded specialist work. Five roles total; no recursive spawning. Reuse specialist threads when possible and close idle threads before exceeding the four-subagent limit. If this client cannot load named agents, report that limitation and use explicit role instructions serially; label it a fallback, not verified native parallel execution.
 
 ## Project objective
@@ -22,7 +24,7 @@ Each handoff returns: completed artifacts; evidence/run IDs; observations vs int
 4. Experiment: write experiments/plan.md before execution. Implement, run within budget, preserve logs and failures in experiments/runs.jsonl, and derive experiments/results.md from raw evidence. Treat negative and null results as first-class outcomes.
 5. Review: an independent reviewer writes review/report.md after reading sources, code, raw runs, and deviations. PI resolves findings and labels the deliverable ready for human review, revise, or stop.
 
-Use `python -m codexlab gate . STAGE` when CodexLab is installed or importable. CLI checks validate artifact structure and bookkeeping. Passing them does not establish scientific validity; the PI and independent reviewer must assess the substance. The PI decides whether to begin the next stage and logs scientific reasons in research/decisions.md; the CLI has no automatic advance command.
+Python and CLI are optional. If a usable Python environment and importable CodexLab are already available, `python -m codexlab gate . STAGE` provides structural checks; do not install a runtime just to start the lab. Without Python, inspect required files, unresolved placeholders, evidence/run records, and existing raw artifacts through App file tools. Record this as a manual assessment in research/decisions.md with findings and evidence; never label it an executed automated gate or automatic PASS. Neither route establishes scientific validity. The PI and independent reviewer assess substance, decide when to begin the next stage, and log reasons; there is no automatic advance command.
 
 ## Evidence and reproducibility
 

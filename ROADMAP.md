@@ -3,8 +3,9 @@
 ## v0.1 alpha — deliver now
 
 - Project-local native Codex roles and PI orchestration instructions.
+- Codex App as the primary interface: chat-based workspace setup and a new project/chat for research, with no user terminal commands required.
 - Research scope, literature, method, experiment and review handoffs.
-- Local initialization, status, kickoff prompts and evidence gates.
+- Optional CLI initialization, status, kickoff prompts and evidence gates; a read-only artifact dashboard.
 - Labeled synthetic demo and a runnable toy reproducibility example.
 - English and Chinese README, demo images and launch copy.
 
@@ -16,7 +17,7 @@ Compare a single-agent workflow against the five-role workflow on the same task 
 
 ## Later — conditional on pilot evidence
 
-- Optional local dashboard showing actual artifacts and native session events.
+- A dedicated local CodexLab control interface through official Codex App Server, with explicit start/stop controls, native session events, and approvals. The shipped read-only artifact dashboard is not this controller.
 - Versioned adapters for changes to Codex's agent configuration.
 - Reusable domain workflows and integrations for citation libraries and experiment trackers.
 - Verified research case studies with source code, raw results and human authorship decisions.

@@ -2,13 +2,18 @@
 
 Many API-driven multi-agent frameworks require model credentials, separate inference billing, and an external orchestration runtime. CodexLab takes the native Codex route: researchers use their existing eligible Codex sign-in and native subagents, with no separate model API key on that path. Model usage remains subject to the user's Codex account and limits.
 
-CodexLab is a local research workspace scaffold, workflow contract, and artifact validator. Codex supplies model execution and delegation. The Python CLI copies the scaffold, displays a kickoff prompt, checks files, and shows stage requirements. It does not implement a separate inference service or claim to control Codex sessions through an undocumented API.
+CodexLab is a local research workspace scaffold, workflow contract, and optional artifact validator. The primary interface is Codex App: researchers create a workspace through chat, open that workspace as a project, and ask its PI to begin research. Codex supplies model execution, delegation, approvals, and visible subagent activity. Researchers do not need Python or terminal commands to use the workspace instructions and native roles.
+
+The repository's root `AGENTS.md` guides chat-based setup from the bundled template. Creating files does not activate a new project's agent configuration inside the current session. The user must open the generated lab as a separate project, inspect and trust its project configuration, then start a new chat there. See [the App-first entry guide](../START_HERE.md).
+
+The optional Python CLI copies the same scaffold, displays a kickoff prompt, checks files, and shows stage requirements. Its browser dashboard displays artifacts and structural checks only; it cannot start agents or display live native session events. Without the CLI, the PI inspects the required artifacts and records its assessment without claiming an automated gate passed.
 
 The lab contains five roles: a PI in the primary Codex session and four specialists. The PI assigns bounded work and integrates evidence. Literature checks primary sources and collisions; method proposes a falsifiable approach; experiment implements and preserves raw runs; reviewer independently audits the original artifacts. Model and reasoning choices inherit from the active session. Role count is a design constraint, not an obligation to run all specialists simultaneously.
 
 ```mermaid
 flowchart LR
-  User[Human research owner] --> PI[PI: primary Codex session]
+  User[Human research owner] --> App[Codex App: chat and native activity]
+  App --> PI[PI: primary Codex session]
   PI --> L[Literature]
   PI --> M[Method]
   PI --> E[Experiment]
@@ -33,7 +38,11 @@ flowchart LR
 | Experiment | Experiment | `experiments/plan.md`, `experiments/results.md`, `experiments/runs.jsonl` | Do actual measurements support the bounded claim? |
 | Review | Reviewer | `review/report.md` | Are evidence, baselines, protocol, and interpretation defensible? |
 
-The validator detects incomplete templates, malformed records, and missing artifacts. It checks individual stages; the PI enforces dependency order and records stage decisions. It cannot determine whether an algorithm is sound, a paper is understood correctly, or a result generalizes. A structural pass remains subject to PI judgment and independent review. A successful experiment can produce a negative or null effect; a crashed process provides a failure log, not a fabricated successful metric.
+When installed, the optional validator detects incomplete templates, malformed records, and missing artifacts. It checks individual stages; the PI enforces dependency order and records stage decisions. It cannot determine whether an algorithm is sound, a paper is understood correctly, or a result generalizes. A structural pass remains subject to PI judgment and independent review. A successful experiment can produce a negative or null effect; a crashed process provides a failure log, not a fabricated successful metric.
+
+## A dedicated local interface, later
+
+A separate CodexLab interface could connect a local backend to the official [Codex App Server](https://learn.chatgpt.com/docs/app-server) for conversations, approvals, and streamed events. That would be additional development. The shipped UI-first workflow uses Codex App itself; the existing read-only dashboard is not an App Server controller.
 
 ## Evidence ownership and handoffs
 

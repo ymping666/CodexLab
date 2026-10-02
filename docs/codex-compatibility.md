@@ -1,24 +1,24 @@
-# Codex compatibility and verification
+# Codex App compatibility and verification
 
-Checked on 2026-10-01 with local `codex-cli 0.159.2`. This is an observed version, not a minimum supported version claim. OpenAI may change configuration or availability; inspect your client's behavior before relying on it.
+The default entry point is the Codex App: open the downloaded source folder, request a new lab in chat, then open the generated lab as a separate project and start a new chat. Python, pip, a separately installed CLI, and a model API key are not user prerequisites for this file-copy and native-chat workflow. Use App sign-in with your eligible account; account quotas, workspace controls, and client feature availability still apply. See [official authentication documentation](https://learn.chatgpt.com/docs/auth).
 
-CodexLab uses project `.codex/config.toml` with `[agents]`, `enabled = true`, and `max_concurrent_threads_per_session = 4`. This limit excludes the primary PI session. See the [official configuration reference](https://learn.chatgpt.com/docs/config-file/config-reference).
+Official documentation describes requesting subagents in App chats and inspecting their threads. The scaffold supplies four named specialists with `name`, `description`, and `developer_instructions`; model and reasoning settings inherit. Actual named-agent discovery and execution must be confirmed in your client. See [official subagent documentation](https://learn.chatgpt.com/docs/agent-configuration/subagents).
 
-Each standalone `.codex/agents/*.toml` declares `name`, `description`, and `developer_instructions`. The four specialists omit model overrides. Ask for named specialist delegation in the kickoff prompt and inspect the client-visible agent threads. See [official subagent documentation](https://learn.chatgpt.com/docs/agent-configuration/subagents).
+Project `.codex/config.toml` enables agents with a four-subagent limit, excluding the primary PI session. See [official configuration reference](https://learn.chatgpt.com/docs/config-file/config-reference). Project-local configuration loads only for trusted projects. Review the generated files and use the App's trust controls before starting a new chat in the generated directory. Copying files or opening the source repository alone does not establish activation; current-chat hot loading is not promised. See [official advanced configuration](https://learn.chatgpt.com/docs/config-file/config-advanced).
 
-Eligible users can authenticate Codex with their ChatGPT account; CodexLab does not require an API key for that path. Account quotas, workspace permissions, client support, and feature availability still apply. Optional paid services or data providers may have their own credentials. See [official authentication documentation](https://learn.chatgpt.com/docs/auth).
+## Verified scope
 
-## What has and has not been tested
+- Observed local runtime: `codex-cli 0.159.2` on 2026-10-01. This is not a minimum supported version promise or a guarantee about every App distribution.
+- All template TOML files parsed, including four required role schemas.
+- Generated project configuration was accepted by `codex app-server --strict-config`; `config/read` returned enabled agents and the four-subagent limit. A process-local trust override was used without persistent config edits or an inference turn. Before trust, the project layer was disabled.
+- The shell sandbox had an independent runtime profile, so that check did not validate the human account's App session.
+- Offline scaffold, artifact checks, packaging, and toy calculations were tested separately. They do not verify native model execution.
+- The App-first guide is a file-copy/chat handoff contract. Live named-agent discovery, account entitlement, concurrent scientific work, and end-to-end research quality remain unverified until exercised in a real eligible App session.
 
-- Local CLI version was read directly.
-- Template TOML is checked for syntax and required role fields.
-- Offline scaffold, artifact checks, packaging, and toy measurements can be validated without inference.
-- On `0.159.2`, the generated project's configuration was accepted by `codex app-server --strict-config`; `config/read` returned effective `agents.enabled = true` and a four-subagent limit. This used a process-local project trust override with no persistent configuration edits and no inference turn. Before trust, that project layer was disabled.
-- The shell sandbox used an independent runtime profile, so this check did not verify the human user's account session. A successful config read confirms parsing/effective configuration only.
-- Native named-agent discovery, model execution, parallel task completion, and account entitlement require a live Codex session. Do not infer them from a TOML parse or toy experiment.
+## App smoke check
 
-## Client smoke check
+Open the newly generated lab as its own App project, review trust, and start a fresh chat. Ask Codex to read `research/kickoff.md`, delegate a tiny source inspection to `literature`, and return the discovered role, child thread, and output artifact. Inspect the actual thread before claiming native execution works. No terminal command is necessary for this check.
 
-Run `codex --version` and `codex login status`. If needed, run `codex login` and complete the existing ChatGPT sign-in flow. Open the initialized research workspace in Codex and paste `research/kickoff.md`'s prompt. Ask the PI to delegate a tiny source inspection to `literature`, then report the discovered role name and artifact. Inspect the actual child thread before claiming native execution works for your setup.
+If the client cannot discover a role, report its actual behavior. A serial role-prompt fallback must be labeled as such; it is not evidence of native parallel execution. Without Python, PI may inspect materials manually and record that fact, but must not report an automated CLI gate pass.
 
-If a client ignores project configuration or cannot load a custom role, report the concrete behavior and use serial role prompts explicitly as a fallback. Do not silently label that run native parallel orchestration. CodexLab does not disable approval/sandbox policy, handle credentials, or provide quota bypasses.
+CLI and read-only dashboard checks are optional developer tools. Manually copied folders require a valid `.codexlab.json` before those tools recognize the workspace. CodexLab does not change global authentication, disable permissions, or bypass quotas.

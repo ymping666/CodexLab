@@ -22,3 +22,13 @@ Native named-agent discovery, user-account model execution, and a complete real 
 At the time of this local validation, Python 3.11/3.13 and Linux checks were configured in GitHub Actions but had not run remotely. The local wheel was tested on Python 3.14.7. GitHub publication to https://github.com/ymping666/CodexLab was authorized subsequently; see the repository's Actions tab for current remote validation. No package registry or social post was published during this validation.
 
 Structural research gates do not certify scientific validity, source accuracy, novelty, reviewer independence or conference readiness. These remain human research decisions.
+
+## App-first onboarding update — 2026-10-02
+
+- Default onboarding now uses Codex App chat to create a lab, followed by opening the generated lab as a separate project, reviewing/trusting its configuration, and starting a new chat. Python and terminal commands are optional user-facing tools.
+- The expanded offline release check passes: App entry links, template interpolation contract, explicit hidden native configuration in package data, and all four specialist manifests.
+- A local file-copy smoke check followed the bootstrap contract using PowerShell without Python for creation: all 16 template files, hidden `.codex` files, empty ledgers, UTF-8 topic replacement, and `.codexlab.json` were preserved. An existing target was refused without changing its content. The optional CLI subsequently recognized the resulting workspace and correctly reported its unfinished stages.
+- Existing unit checks still pass: 16 passed and one real Windows symlink test skipped.
+- Rebuilt the optional wheel and tested an isolated installation: updated App kickoff, optional-CLI research instructions, and all four hidden native roles are included.
+- This is an offline contract check, not a captured end-to-end Codex App setup conversation. Live named-agent dispatch and model execution still require validation in the user's client and account.
+- The shipped browser dashboard remains read-only. A separate CodexLab controller using App Server is planned, not implemented by this onboarding update.

@@ -4,88 +4,78 @@
 
 **Already using Codex? Build your research lab on its native subagents—without another LLM API key.**
 
-Many API-driven multi-agent frameworks ask you to configure model API credentials, pay for separate API calls, and wire up an orchestration runtime. CodexLab uses the Codex environment you already sign in to. The framework needs no additional LLM API key or separate model API integration; native Codex subagents do the work.
+Many API-driven multi-agent frameworks ask you to configure model API credentials, pay for separate API calls, and wire up an orchestration runtime. CodexLab starts in the **Codex App you already sign in to**. Download the project, ask Codex to create your lab, and run the research in its own workspace.
 
-Use your eligible existing Codex plan. Normal plan quotas still apply. Then organize the research into five roles: PI, Literature, Method, Experiment, and Reviewer.
+Use your eligible existing Codex plan; normal quotas still apply. The default setup requires **no Python installation and no terminal commands from you**.
 
-[GitHub](https://github.com/ymping666/CodexLab) · [简体中文](README.zh-CN.md) · [Product brief](marketing/product-brief.md) · [Demo storyboard](marketing/demo-storyboard.md) · [Roadmap](ROADMAP.md)
+[GitHub](https://github.com/ymping666/CodexLab) · [简体中文](README.zh-CN.md) · [Start here](START_HERE.md) · [Product brief](marketing/product-brief.md) · [Roadmap](ROADMAP.md)
 
 ![CodexLab conceptual research workspace — synthetic example](assets/codexlab-concept-demo.png)
 
-*Alpha · Concept image with synthetic example data. An [actual local dashboard screenshot](assets/codexlab-dashboard-actual.jpg) is also available; it shows synthetic artifact status, not live agents.*
+*Alpha · Concept image with synthetic example data. The [actual local dashboard screenshot](assets/codexlab-dashboard-actual.jpg) shows synthetic artifact status, not live agents.*
 
-## Use the Codex runtime you already have
+## Start in the Codex App
+
+You need a signed-in Codex App with access to native subagents. Check support and plan eligibility against the current official documentation.
+
+1. Go to [CodexLab on GitHub](https://github.com/ymping666/CodexLab), select **Code → Download ZIP**, and extract it.
+2. Open the extracted **repository folder** as a project in the Codex App. Start a chat and paste the creation prompt below, replacing the topic.
+3. Codex creates a new `my-lab` directory using the project templates. If that directory already exists, choose another name; creation must not overwrite it.
+4. Open the generated **`my-lab` folder as a separate project** in the Codex App. Review its `AGENTS.md` and `.codex` configuration and complete the native trust prompt for the configuration you reviewed.
+5. In a **new chat in that lab project**, paste the research-start prompt below.
+
+There are **two project openings**: the repository for setup, then `my-lab` for research. Opening the repository does not load the nested lab's agent configuration. Project configuration may be ignored until the lab workspace is trusted.
+
+**Creation prompt — in the repository project:**
+
+```text
+Read START_HERE.md and the repository-root AGENTS.md.
+Using this repository's research templates, create a new ./my-lab
+workspace for the topic: [YOUR RESEARCH TOPIC].
+
+Use Codex's file tools. Do not require me to install Python or type
+terminal commands. Do not overwrite an existing directory.
+Generate the complete lab configuration, four native subagent role
+files, and research artifacts, including research/kickoff.md.
+
+Check that the generated configuration and relative role paths agree.
+Do not start research in this repository session.
+Report the absolute path of my-lab and tell me to open that folder
+as a separate Codex App project, review/trust its configuration,
+and start a new chat there.
+```
+
+**Research-start prompt — in the separately opened `my-lab` project:**
+
+```text
+Read this workspace's AGENTS.md and research/kickoff.md.
+Follow the kickoff instructions and act as the PI / Lab Lead.
+Start with the scope stage and delegate focused work to the configured
+native subagents when useful. Ask me for the research decisions
+specified in the workflow. Keep evidence and handoffs in this workspace.
+If native roles are unavailable, explain the configuration issue.
+```
+
+## Your Codex runtime, five research roles
 
 | Starting point | Many API-driven frameworks | CodexLab |
 |---|---|---|
-| Model access | Configure model API keys and providers | Use your signed-in Codex environment |
+| Model access | Configure model API keys and providers | Use your signed-in Codex App |
 | Model-call billing | Separate model API usage | Your eligible existing Codex plan and its quotas |
 | Agent execution | Integrate an SDK or orchestration runtime | Codex's native subagents |
-| Research setup | Assemble roles and handoffs yourself | Generate a five-role lab and shared research artifacts |
+| Research setup | Assemble roles and handoffs yourself | Create a five-role lab from chat |
 
-The Python CLI creates files and checks artifacts. **Codex itself runs the agents.** CodexLab configures native research roles instead of implementing another LLM API scheduler. Experiment compute, datasets, and any external services you choose remain your own resources.
-
-## Five roles, one accountable workflow
+**Codex runs the agents.** CodexLab supplies project instructions, native-role configuration, and shared research artifacts. No additional model API key does not mean unlimited or free execution. Experiment compute, datasets, and external services you choose remain your own resources.
 
 | Role | Responsibility | Expected handoff |
 |---|---|---|
-| **PI / Lab Lead** | Set direction, assign work, resolve disagreements, ask for human decisions | Research brief and synthesis |
+| **PI / Lab Lead** | Set direction, assign work, resolve disagreements | Research brief and synthesis |
 | **Literature Scientist** | Verify sources, map prior art and collisions | Prior-art map and evidence ledger |
 | **Method Scientist** | Turn a gap into a falsifiable method | Proposal and failure criteria |
-| **Experiment Scientist** | Define baselines, implement experiments, record reproducible runs | Evaluation plan, commands and results |
+| **Experiment Scientist** | Define baselines and record reproducible experiments | Evaluation plan, commands and results |
 | **Reviewer** | Challenge claims, confounds and missing comparisons | Critical review and revision requests |
 
-The PI is the root Codex session; the other four roles are configured subagents. Five roles are a maximum working roster, not a requirement to launch every role simultaneously. Keep direction and final research decisions with the human researcher.
-
-```text
-Human researcher
-       |
-   PI / Lab Lead
-       +--- Literature ---- verified sources
-       +--- Method -------- falsifiable proposal
-       +--- Experiment ---- reproducible evidence
-       +--- Reviewer ------ objections and revisions
-       |
-   Shared artifacts + human decisions
-```
-
-## Start a lab
-
-Requirements: Python 3.11 or later, a locally installed Codex CLI with native subagent support, and a usable Codex sign-in. Check your Codex version and plan against the current official documentation.
-
-```bash
-git clone https://github.com/ymping666/CodexLab.git
-cd CodexLab
-
-# Python 3.11+
-python -m pip install -e .
-python -m codexlab doctor
-
-# Use a new, non-existing directory
-python -m codexlab init ./my-lab --topic "Reliable evaluation of long-horizon AI agents"
-python -m codexlab prompt ./my-lab
-
-# Open the research workspace in Codex
-cd my-lab
-codex
-```
-
-Open the generated child workspace in Codex and review its `AGENTS.md` and `.codex` configuration. Complete Codex's native trust prompt for the configuration you have reviewed; project configuration can be ignored until that workspace is trusted. Paste the startup prompt printed by `prompt` into the Codex session. It asks the PI to inspect the workspace, delegate focused work using native subagents, and stop for the decisions specified in the workflow. Follow the installed Codex version's guidance if subagents require an explicit setting.
-
-```bash
-# From the repository, inspect artifacts and one stage's requirements
-python -m codexlab status ./my-lab
-python -m codexlab gate ./my-lab literature
-
-# Explore a clearly labeled synthetic workspace
-python -m codexlab demo ./demo-lab
-python -m codexlab status ./demo-lab
-
-# Open the real, read-only local dashboard
-python -m codexlab serve ./demo-lab --port 8765
-```
-
-`init` and `demo` refuse to overwrite an existing target. `doctor` reports local prerequisites; it does not prove that a live session is authenticated or that every native agent has executed successfully. Commands also support the CLI help (`python -m codexlab --help`).
+The PI is the root Codex session; the other four roles are native subagents. Use the roles needed for the current task rather than launching every role at once. Human researchers retain direction and final decisions.
 
 ## Keep the research handoffs inspectable
 
@@ -97,25 +87,47 @@ python -m codexlab serve ./demo-lab --port 8765
 | Experiment | Baselines, protocol, results and recorded runs |
 | Review | Critical report and unresolved objections |
 
-Gates check required artifacts and their structure. Human researchers verify scientific claims and decide what the evidence supports. Synthetic demos cannot pass research gates.
+Research files make handoffs inspectable. Optional structural gates check required artifacts; human researchers verify scientific claims. Synthetic demos cannot pass those gates.
 
-An example **eight-week sprint target** is a prior-art map, a falsifiable proposal, a reproducible experiment package, and a draft grounded in the evidence collected. Scope and compute determine what is feasible. Publication or acceptance is never guaranteed.
+An **eight-week sprint target** could be a prior-art map, a falsifiable proposal, a reproducible experiment package, and an evidence-backed draft. Feasibility depends on scope and resources; publication or acceptance is not guaranteed.
 
-## What's here today
+## Optional CLI and artifact dashboard
 
-- Dependency-free Python CLI for scaffolding, environment checks, status, startup prompts, synthetic demos, and structural gates.
-- Local Codex project configuration and four specialized subagent instruction files, with the PI acting as the root session.
-- Shared research artifacts and explicit review handoffs, designed for a researcher to inspect and revise.
-- A read-only dashboard at `http://127.0.0.1:8765` for workspace status and structural gate results. This local dashboard differs from the promotional concept image.
-- A launch concept image, demo storyboard, and bilingual project documentation.
-- A portrait [launch poster](assets/codexlab-launch-poster.png) and three [Xiaohongshu copy variants](marketing/xiaohongshu.md).
+For researchers who want command-line scaffolding or structural checks, the dependency-free CLI needs **Python 3.11+**. It is optional for the App setup above.
 
-This alpha delivers workspace setup, native-agent configuration, artifact checks, and a local dashboard. End-to-end scientific output and conference acceptance have not been validated. See the [roadmap](ROADMAP.md) and [development notes](DEVELOPMENT.md) for the next steps.
+```bash
+git clone https://github.com/ymping666/CodexLab.git
+cd CodexLab
+python -m pip install -e .
+python -m codexlab doctor
 
-## Contribute
+# Alternative setup: use a new, non-existing target
+python -m codexlab init ./my-lab --topic "Reliable evaluation of long-horizon AI agents"
+python -m codexlab prompt ./my-lab
 
-Start with one concrete bottleneck: citation verification, experiment reproducibility, reviewer feedback, or clearer handoffs. Include a small reproducible example and distinguish actual observations from synthetic fixtures. The code is licensed under [MIT](LICENSE).
+# Inspect artifacts and structural requirements
+python -m codexlab status ./my-lab
+python -m codexlab gate ./my-lab literature
 
-## Codex references
+# Explore synthetic data in a local read-only dashboard
+python -m codexlab demo ./demo-lab
+python -m codexlab serve ./demo-lab --port 8765
+```
 
-Implementation targets Codex's native configuration surface. Review the official documentation for [subagents](https://learn.chatgpt.com/docs/agent-configuration/subagents), [authentication](https://learn.chatgpt.com/docs/auth), [non-interactive mode](https://learn.chatgpt.com/docs/non-interactive-mode), and the [configuration reference](https://learn.chatgpt.com/docs/config-file/config-reference). CodexLab is an independent project; it is not an official OpenAI product.
+After CLI initialization, open `my-lab` as a separate trusted project in the Codex App and start a new research chat there. `init` and `demo` refuse to overwrite existing targets. `doctor` checks Python and the local Codex binary; it does not verify a live App session or actual agent execution. See `python -m codexlab --help`.
+
+The dashboard at `http://127.0.0.1:8765` displays artifact status and gate results. It is **read-only and does not execute agents**. A separate local control UI is a future direction, not a delivered feature.
+
+## Alpha delivery
+
+- App-first setup instructions and a repository-level chat initialization workflow.
+- A generated research workspace with a PI root session and four native subagent roles.
+- Shared evidence, proposals, experiment records, and review handoffs.
+- Optional Python CLI, synthetic demo, structural checks, and a read-only local dashboard.
+- A [launch poster](assets/codexlab-launch-poster.png), [three Xiaohongshu posts](marketing/xiaohongshu.md), and [demo storyboard](marketing/demo-storyboard.md).
+
+This alpha has not validated end-to-end scientific output or conference acceptance. See [development notes](DEVELOPMENT.md) for verification and [the roadmap](ROADMAP.md) for planned work.
+
+Contributions are welcome for citation verification, reproducibility, reviewer feedback, and clearer handoffs. Include a reproducible example and distinguish observations from synthetic fixtures. Code is licensed under [MIT](LICENSE).
+
+Implementation targets the official Codex [subagent](https://learn.chatgpt.com/docs/agent-configuration/subagents), [authentication](https://learn.chatgpt.com/docs/auth), and [configuration](https://learn.chatgpt.com/docs/config-file/config-reference) surfaces. CodexLab is an independent project, not an official OpenAI product.
