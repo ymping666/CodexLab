@@ -8,7 +8,7 @@ Validation snapshot: 2026-10-02. Current automated results are available in [Git
 - The official Skill installer downloads the public GitHub package. Local Codex discovers the installed Skill as enabled.
 - The optional initializer works from an isolated installed folder without repository imports. It preserves UTF-8 and empty ledgers, rejects existing targets and unsafe paths, and produces a manifest compatible with optional artifact tools.
 - Initialization-only and resume were exercised through file tools without Python. Resume preserved existing materials and changed only the decision log.
-- The 25-test suite covers Skill initialization, existing-data protection, path confinement, malformed evidence, synthetic guards and read-only dashboard behavior. On the local Windows account, 23 passed and two real symlink tests were skipped for missing privileges; simulated reparse-point checks passed.
+- The 27-test suite covers Skill initialization, existing-data protection, path confinement, malformed evidence, synthetic guards and read-only dashboard behavior. On the local Windows account, 25 passed and two real symlink tests were skipped for missing privileges; simulated reparse-point checks passed. Malformed source URLs and null characters in run artifact paths produce validation findings without interrupting status output or dashboard rendering, and preserve the original records.
 - GitHub Actions runs the checks on Windows and Linux with Python 3.11 and 3.13.
 - The optional standalone project's TOML configuration was accepted by a local Codex runtime. This was a configuration check without model inference.
 

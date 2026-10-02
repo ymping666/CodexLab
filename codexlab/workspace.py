@@ -46,6 +46,8 @@ def artifact_path(root: Path, relative: str) -> Path:
     """Resolve an artifact only inside this workspace, rejecting links and traversal."""
     if not isinstance(relative, str):
         raise WorkspaceError("Artifact path must be a string.")
+    if "\0" in relative:
+        raise WorkspaceError("Artifact path must not contain a null character.")
     _reject_traversal(relative)
     normalized = relative.replace("\\", "/")
     candidate = Path(normalized)
@@ -215,14 +217,18 @@ def _ledger_issues(root: Path, relative: str, *, runs: bool) -> list[str]:
                             issues.append(f"line {index}: run artifact contains unresolved placeholders")
                     except UnicodeError:
                         issues.append(f"line {index}: text run artifact is not valid UTF-8")
-            except (WorkspaceError, TypeError):
+            except (ValueError, TypeError, OSError):
                 issues.append(f"line {index}: unsafe run artifact path")
         else:
             if any(not isinstance(record[k], str) or not record[k].strip() for k in required):
                 issues.append(f"line {index}: source fields must be nonempty strings")
                 continue
-            parsed = urlparse(record["url"])
-            if parsed.scheme not in ("http", "https") or not parsed.netloc or parsed.hostname == "example.invalid":
+            try:
+                parsed = urlparse(record["url"])
+                valid_url = parsed.scheme in ("http", "https") and bool(parsed.netloc) and parsed.hostname != "example.invalid"
+            except ValueError:
+                valid_url = False
+            if not valid_url:
                 issues.append(f"line {index}: source URL must be an actual HTTP(S) source")
             try:
                 datetime.fromisoformat(record["checked_at"].replace("Z", "+00:00"))

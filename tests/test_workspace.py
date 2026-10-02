@@ -106,6 +106,37 @@ class WorkspaceTests(unittest.TestCase):
     def run_record(self):
         return {"run_id": "run-001", "command": "python experiments/train.py --seed 7", "seed": 7, "metrics": {"accuracy": 0.8}, "artifact_path": "experiments/output.json"}
 
+    def test_malformed_source_url_is_reported_without_breaking_status(self):
+        self.write("literature/prior-art.md")
+        record = {"title": "Primary source", "url": "https://[broken", "checked_at": "2026-10-01", "claim": "A source claim."}
+        raw = json.dumps(record) + "\n"
+        self.write("evidence/ledger.jsonl", raw)
+        gate = check_gate(self.root, self.manifest, "literature")
+        self.assertFalse(gate["passed"])
+        self.assertIn("line 1: source URL", str(gate["issues"]))
+        self.assertIn("source URL", _render_dashboard(workspace_status(self.root, self.manifest)))
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            self.assertEqual(main(["status", str(self.root), "--json"]), 0)
+        self.assertIn("source URL", str(json.loads(out.getvalue())["gates"]))
+        self.assertEqual((self.root / "evidence/ledger.jsonl").read_text(encoding="utf-8"), raw)
+
+    def test_null_run_artifact_path_is_reported_without_breaking_status(self):
+        self.complete_experiment()
+        record = self.run_record() | {"artifact_path": "experiments/bad\0.json"}
+        raw = json.dumps(record) + "\n"
+        self.write("experiments/runs.jsonl", raw)
+        with self.assertRaises(WorkspaceError):
+            artifact_path(self.root, record["artifact_path"])
+        gate = check_gate(self.root, self.manifest, "experiment")
+        self.assertFalse(gate["passed"])
+        self.assertIn("line 1: unsafe run artifact path", str(gate["issues"]))
+        self.assertIn("unsafe run artifact path", _render_dashboard(workspace_status(self.root, self.manifest)))
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(main(["gate", str(self.root), "experiment"]), 1)
+            self.assertEqual(main(["status", str(self.root), "--json"]), 0)
+        self.assertEqual((self.root / "experiments/runs.jsonl").read_text(encoding="utf-8"), raw)
+
     def complete_experiment(self):
         self.write("experiments/plan.md")
         self.write("experiments/results.md")
