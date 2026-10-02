@@ -1,59 +1,59 @@
-# 在 Codex App 里启动 CodexLab
+# 安装一次，在当前项目调用 CodexLab
 
-下载 ZIP、解压，在 Codex App 中打开解压后的仓库文件夹，用已有的、具备 Codex 权限的账号登录。默认入口是 App 对话，无需先安装 Python、pip、CLI，也无需另配模型 API key。账号额度与工作区权限照常生效。
+默认入口是可安装的 Codex Skill。无需先下载整个仓库、创建另一份项目再切换目录，也无需用户先安装 Python。使用已有、具备 Codex 权限的账号；模型使用照常消耗账号额度，无需另配 LLM API Key。
 
-在仓库项目的新聊天中发送下面这段话，把课题替换成你的方向：
-
-```text
-阅读 START_HERE.md 和仓库根 AGENTS.md。
-请从 codexlab/templates/research 完整创建新的 my-lab 研究工作区。
-我的课题是：提高科学问答中检索证据的使用效率。
-包含隐藏的 .codex、所有角色文件和 .codexlab.json 工作区记录，
-替换项目名与课题占位符。如果 my-lab 已存在，请停止，不覆盖。
-这一步只创建工作区，不在仓库根目录开始科研。
-完成后给我生成目录的绝对路径，并说明如何在 App 中打开它。
-```
-
-创建工作区是复制文件，不等于已经启动科研团队。接着把返回的 **my-lab 目录作为独立 App 项目打开**。审阅生成的 `.codex/config.toml` 与角色文件，按 App 的项目信任提示处理。项目配置需要信任才能加载；不能假定原聊天即时加载另一个目录的配置。见 [OpenAI 项目配置说明](https://learn.chatgpt.com/docs/config-file/config-advanced)。
-
-在 my-lab 中开启新聊天，发送：
+## 1. 在 Codex 聊天中安装
 
 ```text
-阅读 AGENTS.md、research/brief.md 和 research/kickoff.md。
-按 kickoff 启动 CodexLab：你担任 PI，明确调用 literature、method、
-experiment、reviewer 四个原生角色，先完善范围、资源和预算。
-没有 Python 时人工检查材料并记录，不要声称自动 gate 通过。
+$skill-installer https://github.com/ymping666/CodexLab/tree/main/skills/codexlab
 ```
 
-PI 再组织文献、方法、实验与独立审查。官方文档支持 App 请求子智能体并查看子线程，具体客户端与账号仍需实际验证。见 [OpenAI 子智能体说明](https://learn.chatgpt.com/docs/agent-configuration/subagents)。
+这是 Codex 的 Skill 指令，不是终端命令。官方安装器支持从其他 GitHub 仓库安装 Skill。安装完成后，在下一条消息中尝试调用；若没有出现，查看客户端的 Skill 列表，按客户端提示刷新或重启。见 [官方 Skill 使用与安装说明](https://learn.chatgpt.com/docs/build-skills)。
 
-如果文件权限阻止自动创建，用资源管理器复制 **codexlab/templates/research 整个文件夹**，将副本命名为 my-lab，确保 `.codex` 也被复制。把副本作为独立 App 项目打开，用 App 文件编辑或请 Codex 替换全部 `{{PROJECT_NAME}}` 为 my-lab、`{{TOPIC}}` 为你的课题，保留 `TODO`。手动复制不会自动生成 `.codexlab.json`；如需可选 CLI，请 Codex 按根 AGENTS.md 的 schema 补齐记录，不能声称未经补齐就兼容 CLI。不要重新覆盖初始化这个已有副本。
+## 2. 在你的研究项目里调用
 
-详细材料与可选工具见 [快速开始](docs/quickstart.md)，验证范围见 [兼容性说明](docs/codex-compatibility.md)。
+```text
+$codexlab 研究方向：长程 AI 智能体的可靠评测。
+先检查可用数据、工具和预算，再开始文献与方法工作。
+```
+
+当前 Codex 会话担任 PI，根据需要委派文献、方法、实验、独立审查四个原生子智能体。默认将材料保存到当前项目的 `codexlab-runs/<topic-slug>/`，也可以指定输出目录。初始化材料不会注册新的自定义 agent 类型，也不修改项目或全局 `.codex` 配置。
+
+如果只想建立材料目录、暂不研究，直接说明：
+
+```text
+$codexlab 为“科学问答中的证据可靠性”初始化材料。
+输出到 codexlab-runs/evidence-reliability，只创建目录，不开始研究。
+```
+
+继续已有工作时指定原目录：
+
+```text
+$codexlab 继续 codexlab-runs/evidence-reliability。
+读取已有简报、证据和决策，从尚未完成的阶段继续，不重建材料。
+```
+
+## Skill 带来了什么
+
+安装包包含 PI 工作流、四个角色的任务指令、证据协议与研究材料模板。无需再打开源代码仓库。角色通过原生子智能体任务接收指令；并发数量、工具和权限继承当前会话。没有原生子智能体工具时，必须明确报告能力限制，不能把串行角色分析称为并行执行。
+
+用户不需要手动运行命令。若已有 Python，Codex 可调用包内的可选初始化脚本；否则按同样契约使用文件工具创建材料。已有目标目录不能被初始化覆盖。科学实验若需要额外运行环境，仍应在 Scope 阶段说明资源需求。
+
+可选 CLI、结构检查与只读仪表盘见 [快速开始](docs/quickstart.md)。需要独立项目级自定义 TOML 角色时，也可使用原来的 CLI 模板；这是进阶路径，不是 Skill 的安装前置条件。验证范围见 [兼容性说明](docs/codex-compatibility.md)。
 
 ## English quick start
 
-1. Download and extract the ZIP, then open the repository folder in the Codex App with your eligible existing sign-in. Python, pip, CLI and a separate model API key are not prerequisites.
-2. Send the creation prompt below, replacing the topic. Wait for the absolute path of the new workspace; an existing target is refused, even if empty.
-3. Open that generated directory as a **separate App project**, inspect its `.codex` files and project trust controls, and start a **new chat** with the launch prompt. Do not assume the original chat reloads another folder's roles.
-
-Creation prompt:
+Install from Codex chat:
 
 ```text
-Read START_HERE.md and repository AGENTS.md. Create a new my-lab research
-workspace from codexlab/templates/research for this topic: efficient scientific
-question answering. Copy all files including .codex, replace project/topic tokens,
-and create .codexlab.json. Refuse an existing destination. Only create the files;
-do not begin research in the repository. Return the absolute generated path.
+$skill-installer https://github.com/ymping666/CodexLab/tree/main/skills/codexlab
 ```
 
-Launch prompt in the generated project's new chat:
+On your next message, in your research project:
 
 ```text
-Read AGENTS.md, research/brief.md, and research/kickoff.md. Act as PI and
-explicitly use literature, method, experiment, and reviewer. Start with scope
-and resource budgets. If Python is unavailable, inspect and record materials
-manually; do not claim an automated gate pass. Report unsupported role behavior.
+$codexlab Study reliable evaluation of long-horizon AI agents.
+Inspect resources and budget before starting literature and method work.
 ```
 
-If file permissions block copying, use File Explorer to copy the whole template folder, including `.codex`, to a new my-lab. In the copied project, use App editing/chat to replace all project/topic tokens and preserve unresolved `TODO` decisions. Ask Codex to add the manifest described in repository AGENTS.md before using optional CLI tools; raw manual copies have no manifest. Account-specific live agent execution remains to be confirmed; see [compatibility and verification](docs/codex-compatibility.md).
+The current session is PI. Four research roles are delegated through native subagent task instructions, with artifacts under `codexlab-runs/<topic-slug>/` by default. Installing this Skill does not register custom agent types or modify Codex configuration. Existing account limits apply. Refresh the Skill list or restart the client if a newly installed Skill is not discovered. See [official Skills documentation](https://learn.chatgpt.com/docs/build-skills).

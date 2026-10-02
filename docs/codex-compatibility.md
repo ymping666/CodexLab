@@ -1,24 +1,25 @@
-# Codex App compatibility and verification
+# Skill and native-agent compatibility
 
-The default entry point is the Codex App: open the downloaded source folder, request a new lab in chat, then open the generated lab as a separate project and start a new chat. Python, pip, a separately installed CLI, and a model API key are not user prerequisites for this file-copy and native-chat workflow. Use App sign-in with your eligible account; account quotas, workspace controls, and client feature availability still apply. See [official authentication documentation](https://learn.chatgpt.com/docs/auth).
+The default distribution is `skills/codexlab`: install through Codex's `$skill-installer`, then invoke `$codexlab` in the current project. Official documentation supports installing Skills from other repositories, automatic discovery, and explicit `$skill-name` invocation. If a new Skill is not discovered, check the Skill list or restart the client. See [official Skills documentation](https://learn.chatgpt.com/docs/build-skills).
 
-Official documentation describes requesting subagents in App chats and inspecting their threads. The scaffold supplies four named specialists with `name`, `description`, and `developer_instructions`; model and reasoning settings inherit. Actual named-agent discovery and execution must be confirmed in your client. See [official subagent documentation](https://learn.chatgpt.com/docs/agent-configuration/subagents).
+Use an eligible existing Codex account; no separate model API key is needed on that sign-in path. Account quotas, managed permissions, tools and feature availability still apply. See [official authentication documentation](https://learn.chatgpt.com/docs/auth).
 
-Project `.codex/config.toml` enables agents with a four-subagent limit, excluding the primary PI session. See [official configuration reference](https://learn.chatgpt.com/docs/config-file/config-reference). Project-local configuration loads only for trusted projects. Review the generated files and use the App's trust controls before starting a new chat in the generated directory. Copying files or opening the source repository alone does not establish activation; current-chat hot loading is not promised. See [official advanced configuration](https://learn.chatgpt.com/docs/config-file/config-advanced).
+## Skill roles and project agent manifests are different
 
-## Verified scope
+The Skill does not install `.codex/config.toml` or register custom `agent_type` names. PI uses the current session's native delegation tools and supplies each specialist with its role instructions, absolute material root, exclusive output paths, budget and acceptance criteria. Literature, Method, Experiment and Reviewer are responsibilities assigned to native agents, not an assertion that four new runtime types were discovered.
 
-- Observed local runtime: `codex-cli 0.159.2` on 2026-10-01. This is not a minimum supported version promise or a guarantee about every App distribution.
-- All template TOML files parsed, including four required role schemas.
-- Generated project configuration was accepted by `codex app-server --strict-config`; `config/read` returned enabled agents and the four-subagent limit. A process-local trust override was used without persistent config edits or an inference turn. Before trust, the project layer was disabled.
-- The shell sandbox had an independent runtime profile, so that check did not validate the human account's App session.
-- Offline scaffold, artifact checks, packaging, and toy calculations were tested separately. They do not verify native model execution.
-- The App-first guide is a file-copy/chat handoff contract. Live named-agent discovery, account entitlement, concurrent scientific work, and end-to-end research quality remain unverified until exercised in a real eligible App session.
+The current session supplies model, permissions and concurrency. Use fewer simultaneous workers or reuse sessions if its limit is lower; do not change configuration to force a larger team. If delegation is unavailable, report the limitation and label serial role work as a fallback. See [official subagent documentation](https://learn.chatgpt.com/docs/agent-configuration/subagents).
 
-## App smoke check
+The optional CLI's standalone templates still include four custom TOML agents. That separate mode requires opening the generated project, reviewing/trusting configuration, and using a new session. Installing the Skill alone does not activate those manifests. Project trust behavior is described in [official advanced configuration](https://learn.chatgpt.com/docs/config-file/config-advanced).
 
-Open the newly generated lab as its own App project, review trust, and start a fresh chat. Ask Codex to read `research/kickoff.md`, delegate a tiny source inspection to `literature`, and return the discovered role, child thread, and output artifact. Inspect the actual thread before claiming native execution works. No terminal command is necessary for this check.
+## Verification boundaries
 
-If the client cannot discover a role, report its actual behavior. A serial role-prompt fallback must be labeled as such; it is not evidence of native parallel execution. Without Python, PI may inspect materials manually and record that fact, but must not report an automated CLI gate pass.
+The validation record in [RELEASE_CHECKS.md](../RELEASE_CHECKS.md) distinguishes Skill structure and installation checks, isolated initialization, optional CLI tests, and live research execution. A readable Skill or successful installation is not proof of correct delegation or research quality.
 
-CLI and read-only dashboard checks are optional developer tools. Manually copied folders require a valid `.codexlab.json` before those tools recognize the workspace. CodexLab does not change global authentication, disable permissions, or bypass quotas.
+Historical runtime probe: local `codex-cli 0.159.2` on 2026-10-01 accepted the standalone project's configuration through `codex app-server --strict-config` and `config/read`, with enabled agents and a four-subagent limit. It used process-local trust, no inference turn and an independent sandbox profile. This is not a minimum supported version, an App account test, or validation of the new Skill workflow.
+
+## Live client check
+
+After installing, invoke `$codexlab` for a small bounded task in your research project. Ask PI to delegate one source inspection to a Literature worker, report the actual child thread and return a source-backed artifact. Inspect the child activity before claiming native execution. Compare returned paths to the run directory and check that existing project configuration was preserved.
+
+No terminal command or project switch is required for that Skill check. Native dispatch and an end-to-end scientific study remain account/client-specific until observed. Manual material review must be labeled manual; the optional read-only dashboard is not an agent controller.

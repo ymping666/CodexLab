@@ -23,7 +23,7 @@ At the time of this local validation, Python 3.11/3.13 and Linux checks were con
 
 Structural research gates do not certify scientific validity, source accuracy, novelty, reviewer independence or conference readiness. These remain human research decisions.
 
-## App-first onboarding update — 2026-10-02
+## Earlier App-first onboarding update — 2026-10-02
 
 - Default onboarding now uses Codex App chat to create a lab, followed by opening the generated lab as a separate project, reviewing/trusting its configuration, and starting a new chat. Python and terminal commands are optional user-facing tools.
 - The expanded offline release check passes: App entry links, template interpolation contract, explicit hidden native configuration in package data, and all four specialist manifests.
@@ -32,3 +32,15 @@ Structural research gates do not certify scientific validity, source accuracy, n
 - Rebuilt the optional wheel and tested an isolated installation: updated App kickoff, optional-CLI research instructions, and all four hidden native roles are included.
 - This is an offline contract check, not a captured end-to-end Codex App setup conversation. Live named-agent dispatch and model execution still require validation in the user's client and account.
 - The shipped browser dashboard remains read-only. A separate CodexLab controller using App Server is planned, not implemented by this onboarding update.
+
+## Skill-first distribution — 2026-10-02
+
+The default entry is now the self-contained `skills/codexlab` package: install through `$skill-installer`, then invoke `$codexlab` in the current project. The earlier two-project onboarding is retained only for optional standalone TOML-agent workspaces.
+
+- The official skill-creator `quick_validate.py` passed. Its authoring-only YAML dependency was placed in an ignored temporary validation directory; the distributed initializer uses the standard library only.
+- Release checks passed for Skill frontmatter, internal resource links, exact nine-file research assets, interpolation tokens and optional legacy configuration.
+- 25 unit tests ran: 23 passed, two actual Windows symlink tests skipped for missing account privileges. Simulated reparse-point checks passed.
+- An isolated copy of the Skill initialized UTF-8 materials without repository imports. The compatible manifest supports optional `status`, `gate` and `serve`; it has no standalone kickoff file for `prompt`.
+- Existing directories and real data were preserved; incomplete copying reported a blocker without recursively deleting concurrent notes.
+- Independent Skill execution in a temporary fixture used PowerShell file tools without Python to initialize the nine materials and manifest. Initialization-only performed no research or agent delegation.
+- No configuration edit or custom agent-type registration is required by this Skill. Native specialist delegation and complete scientific output remain separate live-client checks; filesystem tests do not establish them.

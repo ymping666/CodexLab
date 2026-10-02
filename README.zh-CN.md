@@ -2,68 +2,47 @@
 
 **A Multi-Agent Research Lab for Codex.**
 
-**已经有 Codex 套餐？用原生多智能体搭科研 Lab，无需另配 LLM API Key。**
+**已经有 Codex 套餐？安装一个 Skill，在当前项目直接搭科研 Lab，无需另配 LLM API Key。**
 
-许多 API 驱动的多智能体框架，需要额外配置模型 API、承担独立调用费用，再接 SDK 和调度运行时。CodexLab 从你已经登录的 **Codex App** 出发：下载项目，用聊天创建 Lab，再到独立工作区开始科研。
+许多 API 驱动的多智能体框架，需要额外配置模型 API、承担独立调用费用，再接 SDK 和调度运行时。CodexLab 使用你已登录的 Codex 与原生子智能体：安装 Skill，输入 `$codexlab` 和研究方向，就在当前项目继续工作。
 
-使用你已有、支持 Codex 的套餐，正常消耗该套餐额度。默认上手流程**不用你安装 Python，也不用你输入终端命令**。
+使用已有合适套餐，正常消耗 Codex 额度。默认流程不用下载 ZIP、切换工作区、安装 Python，也不用你输入终端命令。
 
-[GitHub 仓库](https://github.com/ymping666/CodexLab) · [English](README.md) · [开始使用](START_HERE.md) · [产品说明](marketing/product-brief.md) · [路线图](ROADMAP.md)
+[GitHub 仓库](https://github.com/ymping666/CodexLab) · [English](README.md) · [安装说明](START_HERE.md) · [Skill 指令](skills/codexlab/SKILL.md) · [路线图](ROADMAP.md)
 
 ![CodexLab 科研工作区概念图，使用合成示例](assets/codexlab-concept-demo.png)
 
-*Alpha · 上图为概念展示，使用合成示例。[实际本地仪表盘截图](assets/codexlab-dashboard-actual.jpg) 展示的是合成材料状态，不代表智能体实时运行。*
+*Alpha · 上图为概念展示，使用合成示例。[实际本地仪表盘截图](assets/codexlab-dashboard-actual.jpg) 属于另一项可选只读工具，展示合成材料状态。*
 
-## 直接在 Codex App 中开始
+## 先安装，再调用
 
-需要已登录的 Codex App，以及原生子智能体支持。版本能力与套餐资格请以当前官方文档为准。
-
-1. 打开 [GitHub 仓库](https://github.com/ymping666/CodexLab)，选择 **Code → Download ZIP**，下载并解压。
-2. 在 Codex App 中把解压后的**仓库目录**作为项目打开，新建聊天，粘贴下方创建提示并替换研究主题。
-3. Codex 按模板创建一个新 `my-lab` 目录。该目录若已存在，应换一个名字，不覆盖原有内容。
-4. 再将生成的 **`my-lab` 文件夹作为独立项目打开**。查看其中的 `AGENTS.md` 和 `.codex` 配置，完成 Codex 对已审阅配置的原生信任提示。
-5. 在 **Lab 项目中的新聊天**粘贴下方科研启动提示。
-
-这里有**两次打开**：先打开仓库完成初始化，再打开 `my-lab` 开始研究。打开仓库不会自动加载子目录 Lab 的角色配置；未信任的工作区配置也可能被忽略。
-
-**创建提示——粘贴到仓库项目的聊天中：**
+在 Codex 聊天中，让官方 `skill-installer` 安装仓库里的独立 Skill：
 
 ```text
-先阅读 START_HERE.md 和仓库根目录的 AGENTS.md。
-使用本仓库的科研模板，为研究主题“[替换为你的研究主题]”
-创建一个新的 ./my-lab 工作区。
-
-用 Codex 的文件工具完成，不要求我安装 Python 或输入终端命令。
-不要覆盖已有目录。生成完整 Lab 配置、四份原生子智能体角色文件、
-科研材料和 research/kickoff.md。
-
-检查生成配置与相对角色路径是否一致。
-这次仓库会话只负责创建工作区，不开始科研。
-最后告诉我 my-lab 的绝对路径，提醒我将它作为独立项目
-在 Codex App 中打开、审阅并信任配置，再在新聊天中开始。
+$skill-installer https://github.com/ymping666/CodexLab/tree/main/skills/codexlab
 ```
 
-**科研启动提示——粘贴到单独打开的 `my-lab` 项目新聊天中：**
+安装完成后，在**下一条消息**试着调用：
 
 ```text
-阅读当前工作区的 AGENTS.md 和 research/kickoff.md，
-按 kickoff 的指引担任 PI / Lab Lead，从 Scope 阶段开始。
-需要时将明确任务委派给已配置的原生子智能体，
-在流程规定的决策点请求我的判断。
-把证据与交接材料保存在这个工作区。
-如果原生角色不可用，先说明配置问题。
+$codexlab 研究方向：长程 AI 智能体的可靠评测。
+先从问题范围和已有工作开始。可用时使用原生子智能体
+执行有明确边界的科研任务，把证据与交接材料保存在当前项目。
 ```
 
-## 用已有 Codex，组织五个科研角色
+将研究方向替换成你的题目。如果客户端尚未识别 Skill，刷新 Skill 列表，或按客户端提示重新加载/重启后重试。[官方安装器](https://github.com/openai/skills/tree/main/skills/.system/skill-installer) 支持 GitHub 仓库路径；是否已安装，以你自己的 Codex 返回结果为准。
 
-| 起点 | 许多 API 驱动框架 | CodexLab |
-|---|---|---|
-| 模型访问 | 配置模型 API Key 与供应商 | 使用已登录的 Codex App |
-| 模型调用计费 | 单独计算模型 API 调用费用 | 消耗已有合适套餐的 Codex 额度 |
-| 智能体执行 | 接入 SDK 或搭建调度运行时 | 使用 Codex 原生子智能体 |
-| 科研准备 | 自己组织角色和交接 | 在聊天中按模板创建五角色 Lab |
+科研材料保存在：
 
-**运行智能体的是 Codex 自身。** CodexLab 提供项目指令、原生角色配置和共享科研材料。无需额外模型 API Key，不代表无限免费运行；实际使用受套餐资格与额度约束。实验计算、数据和自行接入的外部服务仍使用你自己的资源。
+```text
+当前项目/
+└── codexlab-runs/
+    └── <topic-slug>/
+```
+
+当前调用会话担任 PI，按需要使用四个专门 worker 角色。默认 Skill 流程直接在当前项目运行，无需另开 Lab 工作区。
+
+## PI 带队，四个原生 worker 按职责工作
 
 | 角色 | 负责什么 | 交付什么 |
 |---|---|---|
@@ -73,25 +52,32 @@
 | **Experiment Scientist** | 设计 baseline、记录可复现实验 | 实验协议、命令与结果 |
 | **Reviewer** | 挑战主张、混杂因素与缺失对照 | 审查报告与修改意见 |
 
-PI 是根 Codex 会话，其余四个角色是原生子智能体。按当前任务调用需要的角色，不要求全部同时启动。研究方向与最终判断由人负责。
+Skill 包含**指令、角色任务约定和材料模板**。PI 将相应角色职责写入交给原生 worker 的任务。安装 Skill **不会自动注册四个自定义 TOML `agent_types`**，也不会自动改写当前项目配置。
+
+实际原生执行依赖你的 Codex 客户端是否暴露 spawn/委派工具。运行记录要区分真实子线程与根会话自己完成的工作。没有这些工具时，使用明确标记的**串行回退**，这不属于原生并行执行。研究方向与最终判断由人负责。
+
+## 用你已经拥有的 Codex
+
+| 起点 | 许多 API 驱动框架 | CodexLab Skill |
+|---|---|---|
+| 模型访问 | 配置模型 API Key 与供应商 | 使用已登录的 Codex |
+| 模型调用计费 | 单独计算模型 API 调用费用 | 消耗已有合适套餐的 Codex 额度 |
+| 智能体执行 | 接入 SDK 或搭建调度运行时 | 可用时使用 Codex 原生 worker |
+| 科研准备 | 自己组织角色和交接 | 安装 Skill，在当前项目调用 |
+
+无需额外模型 API Key，不代表无限免费运行。实际使用受套餐资格与额度约束；实验计算、数据和自行接入的外部服务仍使用你自己的资源。
 
 ## 科研交接，有材料可查
 
-| 阶段 | 要检查的材料 |
-|---|---|
-| Scope | 问题、边界与成功/失败判据 |
-| Literature | 文献报告与有来源的证据记录 |
-| Method | 具体方法与可证伪假设 |
-| Experiment | baseline、协议、结果和运行记录 |
-| Review | 审查报告与未解决的反对意见 |
+每次研究收集问题范围、已有工作、方法方案、实验计划与记录，以及 Reviewer 反馈。可以打开文件检查：哪些主张有来源，哪些实验真的运行过，还有哪些反对意见没有解决。
 
-研究文件让交接有据可查。可选结构 gate 检查必要材料，研究者负责查证科学主张。合成 Demo 无法通过科研 gate。
+一个**八周科研冲刺目标**可以是文献地图、可证伪方案、可复现实验包和证据支持的初稿。可行性取决于范围与资源，不承诺论文录用。
 
-一个**八周科研冲刺目标**可以是文献地图、可证伪方案、可复现实验包和证据支持的初稿。可行性取决于研究范围与资源，不承诺论文录用。
+当前 Alpha 尚未验证完整科研产出或顶会录用。Skill 安装、真实子线程执行与科学证据，需要分别核验。
 
-## 可选 CLI 与材料仪表盘
+## 可选 CLI 与项目配置
 
-想用命令行初始化工作区或做结构检查时，可以使用无第三方运行依赖的 CLI，需要 **Python 3.11+**。上述 App 入门流程不依赖它。
+进阶用户仍可通过 CLI 创建一个**独立、按项目 TOML 配置角色的 Lab**。这条路径需要 Python 3.11+，并需要单独打开和信任生成的项目；默认 Skill 入口不依赖它。
 
 ```bash
 git clone https://github.com/ymping666/CodexLab.git
@@ -99,33 +85,29 @@ cd CodexLab
 python -m pip install -e .
 python -m codexlab doctor
 
-# 另一种创建方式：目标目录必须尚不存在
+# 进阶项目配置方式：目标目录必须不存在
 python -m codexlab init ./my-lab --topic "长程 AI 智能体的可靠评测"
 python -m codexlab prompt ./my-lab
-
-# 查看材料与阶段要求
 python -m codexlab status ./my-lab
 python -m codexlab gate ./my-lab literature
 
-# 在只读本地仪表盘中查看合成示例
+# 可选合成示例和只读材料仪表盘
 python -m codexlab demo ./demo-lab
 python -m codexlab serve ./demo-lab --port 8765
 ```
 
-用 CLI 创建后，同样要在 Codex App 中将 `my-lab` 独立打开、审阅并信任配置，再开新科研聊天。`init`、`demo` 拒绝覆盖已有目标。`doctor` 检查 Python 和本地 Codex 可执行文件，不验证 App 登录或实际智能体执行。完整命令见 `python -m codexlab --help`。
+进阶路径中，审阅并信任独立的 `my-lab` 项目，再在新聊天读取 `research/kickoff.md` 开始。可选的 `status`、`gate`、`serve` 也支持 Skill 生成的运行目录；`prompt` 则用于带 kickoff 文件的项目配置路径。结构检查不证明科学主张或实际智能体执行。合成 Demo 无法通过科研 gate。
 
-`http://127.0.0.1:8765` 仪表盘显示材料状态和 gate 结果，**只读，不执行智能体**。独立的本地控制 UI 是后续方向，目前未交付。
+`http://127.0.0.1:8765` 仪表盘**只读，不执行智能体**。独立本地控制 UI 属于未来方向。完整可选命令见 `python -m codexlab --help`。
 
 ## Alpha 交付
 
-- 以 Codex App 为主入口的说明与仓库级聊天初始化流程。
-- 包含根会话 PI 和四个原生子智能体配置的科研工作区。
-- 共享证据、方法方案、实验记录与审查交接材料。
-- 可选 Python CLI、合成 Demo、结构检查和只读本地仪表盘。
+- 可在当前项目使用的独立 [CodexLab Skill](skills/codexlab/SKILL.md)。
+- PI 指令、四个原生 worker 角色任务约定和科研材料模板。
+- 明确的证据交接；缺少原生 spawn 工具时标记串行回退。
+- 可选项目配置式 CLI、合成 Demo、结构检查和只读本地仪表盘。
 - [发布海报](assets/codexlab-launch-poster.png)、[三版小红书文案](marketing/xiaohongshu.md) 与 [Demo 分镜](marketing/demo-storyboard.md)。
 
-完整科研产出与顶会录用尚未验证。实际检查见 [开发说明](DEVELOPMENT.md)，后续计划见 [路线图](ROADMAP.md)。
+实际检查见 [开发说明](DEVELOPMENT.md)，后续计划见 [路线图](ROADMAP.md)。欢迎贡献引用查证、实验复现、审查反馈和角色交接方面的改进。代码采用 [MIT 协议](LICENSE)。
 
-欢迎贡献引用查证、实验复现、Reviewer 反馈或角色交接方面的改进，并提供可复现的小例子，区分真实观察与合成数据。代码采用 [MIT 协议](LICENSE)。
-
-实现参照 Codex 官方 [子智能体](https://learn.chatgpt.com/docs/agent-configuration/subagents)、[认证](https://learn.chatgpt.com/docs/auth) 与 [配置参考](https://learn.chatgpt.com/docs/config-file/config-reference)。CodexLab 是独立项目，不是 OpenAI 官方产品。
+CodexLab 是独立项目，不是 OpenAI 官方产品。相关官方说明：[Skill 安装器](https://github.com/openai/skills/tree/main/skills/.system/skill-installer)、[子智能体](https://learn.chatgpt.com/docs/agent-configuration/subagents) 与 [认证](https://learn.chatgpt.com/docs/auth)。

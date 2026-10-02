@@ -9,6 +9,7 @@ dist/
 .build/
 my-lab/
 demo-lab/
+codexlab-runs/
 auth.json
 .env
 .env.*

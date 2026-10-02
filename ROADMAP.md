@@ -2,8 +2,9 @@
 
 ## v0.1 alpha — deliver now
 
-- Project-local native Codex roles and PI orchestration instructions.
-- Codex App as the primary interface: chat-based workspace setup and a new project/chat for research, with no user terminal commands required.
+- Installable, self-contained `$codexlab` Skill: install through Codex chat and invoke in an existing project without a project switch or Python prerequisite.
+- PI in the current session and four research responsibilities passed into native specialist tasks; inherited runtime permissions and limits.
+- Optional project-local TOML roles retained for standalone CLI-initialized projects.
 - Research scope, literature, method, experiment and review handoffs.
 - Optional CLI initialization, status, kickoff prompts and evidence gates; a read-only artifact dashboard.
 - Labeled synthetic demo and a runnable toy reproducibility example.
@@ -18,6 +19,7 @@ Compare a single-agent workflow against the five-role workflow on the same task 
 ## Later — conditional on pilot evidence
 
 - A dedicated local CodexLab control interface through official Codex App Server, with explicit start/stop controls, native session events, and approvals. The shipped read-only artifact dashboard is not this controller.
+- Optional plugin packaging for directory distribution and connected research services; the current GitHub Skill remains locally installable.
 - Versioned adapters for changes to Codex's agent configuration.
 - Reusable domain workflows and integrations for citation libraries and experiment trackers.
 - Verified research case studies with source code, raw results and human authorship decisions.

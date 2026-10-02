@@ -2,18 +2,21 @@
 
 Many API-driven multi-agent frameworks require model credentials, separate inference billing, and an external orchestration runtime. CodexLab takes the native Codex route: researchers use their existing eligible Codex sign-in and native subagents, with no separate model API key on that path. Model usage remains subject to the user's Codex account and limits.
 
-CodexLab is a local research workspace scaffold, workflow contract, and optional artifact validator. The primary interface is Codex App: researchers create a workspace through chat, open that workspace as a project, and ask its PI to begin research. Codex supplies model execution, delegation, approvals, and visible subagent activity. Researchers do not need Python or terminal commands to use the workspace instructions and native roles.
+CodexLab is distributed primarily as a self-contained Codex Skill. Install `skills/codexlab` through `$skill-installer`, then invoke `$codexlab` in an existing research project. The current conversation is PI; Codex supplies execution, delegation, approvals and native activity. Researchers do not need to download the source checkout, switch projects, install Python or type terminal commands for this path.
 
-The repository's root `AGENTS.md` guides chat-based setup from the bundled template. Creating files does not activate a new project's agent configuration inside the current session. The user must open the generated lab as a separate project, inspect and trust its project configuration, then start a new chat there. See [the App-first entry guide](../START_HERE.md).
+The installed folder contains `SKILL.md`, UI metadata, team/protocol references, nine artifact templates and an optional standalone initializer. A new run normally writes to `codexlab-runs/<topic-slug>/` in the active project. Resume reads existing evidence and decisions without reinitializing. Bounded analysis and initialization-only requests do not automatically begin a full research run. See [the Skill entry guide](../START_HERE.md).
 
-The optional Python CLI copies the same scaffold, displays a kickoff prompt, checks files, and shows stage requirements. Its browser dashboard displays artifacts and structural checks only; it cannot start agents or display live native session events. Without the CLI, the PI inspects the required artifacts and records its assessment without claiming an automated gate passed.
+Four specialist responsibilities are delivered in native agent task instructions, with an absolute artifact root and exclusive write paths. They are not newly registered custom `agent_type` names. Installing the Skill does not copy TOML agents, alter project/global configuration, or require another session to load a generated project. Concurrency and permissions inherit from the active session; a serial fallback must be labeled when native delegation is unavailable.
+
+The optional Python CLI checks Skill-generated artifacts through their compatible manifest and provides a read-only dashboard. Its standalone initialization mode also retains the earlier project-scoped TOML roles and kickoff prompt; that advanced mode requires opening/trusting the generated project. `prompt` applies to those standalone projects, not Skill runs. The dashboard cannot start agents or display live native session events. Without the CLI, PI records manual material assessments without claiming an automated gate passed.
 
 The lab contains five roles: a PI in the primary Codex session and four specialists. The PI assigns bounded work and integrates evidence. Literature checks primary sources and collisions; method proposes a falsifiable approach; experiment implements and preserves raw runs; reviewer independently audits the original artifacts. Model and reasoning choices inherit from the active session. Role count is a design constraint, not an obligation to run all specialists simultaneously.
 
 ```mermaid
 flowchart LR
   User[Human research owner] --> App[Codex App: chat and native activity]
-  App --> PI[PI: primary Codex session]
+  App --> Skill[Installed CodexLab Skill]
+  Skill --> PI[PI: current Codex session]
   PI --> L[Literature]
   PI --> M[Method]
   PI --> E[Experiment]
@@ -42,7 +45,7 @@ When installed, the optional validator detects incomplete templates, malformed r
 
 ## A dedicated local interface, later
 
-A separate CodexLab interface could connect a local backend to the official [Codex App Server](https://learn.chatgpt.com/docs/app-server) for conversations, approvals, and streamed events. That would be additional development. The shipped UI-first workflow uses Codex App itself; the existing read-only dashboard is not an App Server controller.
+A separate CodexLab interface could connect a local backend to the official [Codex App Server](https://learn.chatgpt.com/docs/app-server) for conversations, approvals, and streamed events. That would be additional development. The shipped Skill operates inside Codex's existing interface; the read-only dashboard is not an App Server controller.
 
 ## Evidence ownership and handoffs
 

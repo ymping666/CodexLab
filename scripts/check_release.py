@@ -1,4 +1,4 @@
-"""Offline release checks for App onboarding, templates and native manifests."""
+"""Offline release checks for the installable Skill and optional legacy tooling."""
 from pathlib import Path
 import re
 import sys
@@ -12,24 +12,64 @@ def main() -> int:
     required_documents = ("README.md", "README.zh-CN.md", "AGENTS.md", "START_HERE.md")
     for filename in required_documents:
         if not (root / filename).is_file():
-            errors.append(f"Missing App onboarding document: {filename}")
+            errors.append(f"Missing project onboarding document: {filename}")
     documents = set(root.glob("*.md")) | set((root / "docs").glob("*.md")) | set((root / "marketing").glob("*.md"))
     for source in sorted(documents):
         filename = source.relative_to(root).as_posix()
         if not source.is_file():
             continue
-        local_targets = []
         for target in re.findall(r"!?\[[^\]]*\]\(([^)]+)\)", source.read_text(encoding="utf-8")):
             target = target.strip("<>")
             if re.match(r"^[a-zA-Z][a-zA-Z0-9+.-]*:", target) or target.startswith("#"):
                 continue
             target_path = unquote(target.split("#", 1)[0].split("?", 1)[0])
             candidate = source.parent / target_path
-            local_targets.append(candidate.resolve())
             if not candidate.exists():
                 errors.append(f"{filename}: broken local link {target}")
-        if filename in ("README.md", "README.zh-CN.md") and (root / "START_HERE.md").resolve() not in local_targets:
-            errors.append(f"{filename}: link to START_HERE.md is required for the App-first entry path")
+    skill = root / "skills" / "codexlab"
+    entry = skill / "SKILL.md"
+    if not entry.is_file():
+        errors.append("Installable Skill is missing skills/codexlab/SKILL.md")
+    else:
+        text = entry.read_text(encoding="utf-8")
+        frontmatter = re.match(r"\A---\r?\n(.*?)\r?\n---(?:\r?\n|\Z)", text, re.S)
+        if not frontmatter:
+            errors.append("Skill entrypoint requires YAML frontmatter")
+        else:
+            fields = frontmatter.group(1)
+            name = re.search(r"^name:\s*([^\r\n]+)$", fields, re.M)
+            description = re.search(r"^description:\s*([^\r\n]+)$", fields, re.M)
+            if not name or name.group(1).strip().strip("\"'") != "codexlab":
+                errors.append("Skill frontmatter name must be codexlab")
+            if not description or not description.group(1).strip().strip("\"'"):
+                errors.append("Skill frontmatter requires a nonempty description")
+    linked_resources = set()
+    for source in sorted(skill.rglob("*.md")):
+        for target in re.findall(r"!?\[[^\]]*\]\(([^)]+)\)", source.read_text(encoding="utf-8")):
+            target = target.strip("<>")
+            if re.match(r"^[a-zA-Z][a-zA-Z0-9+.-]*:", target) or target.startswith("#"):
+                continue
+            candidate = (source.parent / unquote(target.split("#", 1)[0].split("?", 1)[0])).resolve()
+            if not candidate.is_relative_to(skill.resolve()):
+                errors.append(f"{source.relative_to(root).as_posix()}: Skill resource escapes its installed folder: {target}")
+            elif not candidate.exists():
+                errors.append(f"{source.relative_to(root).as_posix()}: missing bundled resource {target}")
+            else:
+                linked_resources.add(candidate)
+    for relative in ("references/protocol.md", "references/team.md", "scripts/init_workspace.py", "assets/research"):
+        candidate = (skill / relative).resolve()
+        if not candidate.exists():
+            errors.append(f"Skill is missing bundled {relative}")
+        elif candidate not in linked_resources:
+            errors.append(f"Skill instructions must link bundled {relative}")
+    expected_assets = {
+        "research/brief.md", "research/decisions.md", "literature/prior-art.md", "evidence/ledger.jsonl",
+        "method/proposal.md", "experiments/plan.md", "experiments/results.md", "experiments/runs.jsonl", "review/report.md",
+    }
+    skill_assets = skill / "assets" / "research"
+    actual_assets = {path.relative_to(skill_assets).as_posix() for path in skill_assets.rglob("*") if path.is_file()}
+    if actual_assets != expected_assets:
+        errors.append(f"Skill research assets must be self-contained: missing {sorted(expected_assets - actual_assets)}, unexpected {sorted(actual_assets - expected_assets)}")
     template = root / "codexlab" / "templates" / "research"
     allowed_tokens = {"{{PROJECT_NAME}}", "{{TOPIC}}"}
     found_tokens = set()
@@ -42,12 +82,11 @@ def main() -> int:
             errors.append(f"{path.relative_to(root).as_posix()}: unsupported interpolation token {token}")
     for token in sorted(allowed_tokens - found_tokens):
         errors.append(f"Research templates are missing the bootstrap interpolation token {token}")
-    bootstrap = root / "AGENTS.md"
-    if bootstrap.is_file():
-        instructions = bootstrap.read_text(encoding="utf-8")
-        for required in ("codexlab/templates/research", ".codex", *sorted(allowed_tokens)):
-            if required not in instructions:
-                errors.append(f"AGENTS.md: bootstrap must document the canonical copy contract {required}")
+    for path in skill_assets.rglob("*"):
+        if path.is_file():
+            unsupported = set(re.findall(r"\{\{[^}]*\}\}", path.read_text(encoding="utf-8"))) - allowed_tokens
+            if unsupported:
+                errors.append(f"{path.relative_to(root).as_posix()}: unsupported Skill interpolation tokens {sorted(unsupported)}")
     try:
         project = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))
         patterns = project.get("tool", {}).get("setuptools", {}).get("package-data", {}).get("codexlab", [])
@@ -91,7 +130,7 @@ def main() -> int:
         print(f"FAIL: {error}", file=sys.stderr)
     if errors:
         return 1
-    print("PASS: App entry links, bootstrap interpolation contract, hidden native configuration, four roles, model inheritance and native concurrency")
+    print("PASS: self-contained Skill entry/resources/assets, documentation links, optional legacy native configuration and model inheritance")
     print("This offline check does not run Codex inference or establish research validity.")
     return 0
 
