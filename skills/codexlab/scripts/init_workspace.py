@@ -79,7 +79,7 @@ def initialize(target_value: str | Path, topic: str) -> Path:
         raise InitError(f"Incomplete Skill research assets. Missing: {missing}; unexpected: {extra}")
     manifest = {
         "schema_version": 1,
-        "codexlab_version": "0.1.0",
+        "codexlab_version": "0.2.0",
         "name": target.name,
         "topic": topic,
         "created_at": datetime.now(timezone.utc).isoformat(),

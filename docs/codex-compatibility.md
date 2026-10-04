@@ -12,6 +12,12 @@ The current session supplies model, permissions and concurrency. Use fewer simul
 
 The optional CLI's standalone templates still include four custom TOML agents. That separate mode requires opening the generated project, reviewing/trusting configuration, and using a new session. Installing the Skill alone does not activate those manifests. Project trust behavior is described in [official advanced configuration](https://learn.chatgpt.com/docs/config-file/config-advanced).
 
+## Team menu compatibility
+
+The guided menu needs an explicitly available inline HTML rendering capability. Installing the Skill does not register a page in every Codex client. When that capability is absent, the same names, purposes and presets are available as text. Neither presentation needs a local server.
+
+The optional chat bridge requests a complete configuration-only follow-up on a user click; clipboard/manual fallback lets the user send it themselves. Saved widget state is an unconfirmed draft, not authorization. Actual sending and confirmation depend on the host; automated browser checks use a simulated bridge. The menu does not start agents or control the read-only artifact dashboard.
+
 ## Verification boundaries
 
 The [validation summary](validation.md) distinguishes Skill structure and installation checks, isolated initialization, optional CLI tests, and live research execution. A readable Skill or successful installation is not proof of correct delegation or research quality.

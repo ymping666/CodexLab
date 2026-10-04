@@ -10,9 +10,9 @@
 
 [GitHub 仓库](https://github.com/ymping666/CodexLab) · [English](README.md) · [安装说明](START_HERE.md) · [Skill 指令](skills/codexlab/SKILL.md) · [路线图](ROADMAP.md)
 
-![CodexLab 科研工作区概念图，使用合成示例](assets/codexlab-concept-demo.png)
+![CodexLab 团队配置：先选用途，再核对和调整研究职责](assets/codexlab-team-setup.png)
 
-*Alpha · 上图为概念展示，使用合成示例。[实际本地仪表盘截图](assets/codexlab-dashboard-actual.jpg) 属于另一项可选只读工具，展示合成材料状态。*
+*v0.2 Alpha · 上图为实际团队菜单截图。支持内嵌 HTML 的宿主可显示交互界面，其他客户端使用文字菜单。[材料仪表盘](assets/codexlab-dashboard-actual.jpg) 是另一项可选只读工具。*
 
 ## 先安装，再调用
 
@@ -25,12 +25,11 @@ $skill-installer https://github.com/ymping666/CodexLab/tree/main/skills/codexlab
 安装完成后，在**下一条消息**试着调用：
 
 ```text
-$codexlab 研究方向：长程 AI 智能体的可靠评测。
-先从问题范围和已有工作开始。可用时使用原生子智能体
-执行有明确边界的科研任务，把证据与交接材料保存在当前项目。
+$codexlab 帮我选择研究团队，展示引导菜单。
+先只配置团队，不开始研究。
 ```
 
-将研究方向替换成你的题目。如果客户端尚未识别 Skill，刷新 Skill 列表，或按客户端提示重新加载/重启后重试。[官方安装器](https://github.com/openai/skills/tree/main/skills/.system/skill-installer) 支持 GitHub 仓库路径；是否已安装，以你自己的 Codex 返回结果为准。
+先选择用途，核对建议团队，按需逐位调整；在聊天确认后，再说明研究题目和任务范围。也可以直接给出研究任务，跳过团队配置。如果客户端尚未识别 Skill，刷新 Skill 列表，或按客户端提示重新加载/重启后重试。[官方安装器](https://github.com/openai/skills/tree/main/skills/.system/skill-installer) 支持 GitHub 仓库路径；是否已安装，以你自己的 Codex 返回结果为准。
 
 科研材料保存在：
 
@@ -41,6 +40,27 @@ $codexlab 研究方向：长程 AI 智能体的可靠评测。
 ```
 
 当前调用会话担任 PI，按需要使用四个专门 worker 角色。默认 Skill 流程直接在当前项目运行，无需另开 Lab 工作区。
+
+## 先选用途，再配团队
+
+新手入口提供四个具体用途：**读论文找方向、打磨研究想法、设计推进实验、检查结果或复现**。选择后查看一个小团队，中文职责、名字和调整按钮逐行对应；全部风格和五套完整组合按需展开。
+
+| 职责 | 三种工作风格 |
+|---|---|
+| PI / 当前会话 | Aster 综合统筹 / Orion 探索驱动 / Quinn 决策收敛 |
+| 文献科学家 | Atlas 系统综述 / Scout 前沿雷达 / Flint 反证检索 |
+| 方法科学家 | Nova 机制驱动 / Theo 理论约束 / Mira 极简实证 |
+| 实验科学家 | Forge 工程复现 / Vector 统计稳健 / Pulse 小步验证 |
+| 独立审查员 | Sage 综合审查 / Rook 对抗挑错 / Trace 复现审计 |
+
+这是五类职责下的十五种**任务指令风格**，不是同时运行十五个智能体，也不代表不同模型。保留 PI，暂不需要的其他职责可以关闭。组合是可调整的起点，尚未证明哪套效果最好。
+
+流程是 **选择用途 → 核对团队 → 交回聊天**。支持聊天桥接时，确认按钮请求发送完整配置；其他情况下复制或手动选中指令，再自行粘贴发送。点击菜单、复制指令都不等于确认团队或开始研究。内嵌菜单不需要浏览器服务或 Python。详见 [团队、组合与使用示例](docs/teams.md)。
+
+```text
+$codexlab 让 Orion、Atlas 和 Theo 分析我提供的研究问题。
+只做分析，不初始化材料，也不运行实验。
+```
 
 ## PI 带队，四个原生 worker 按职责工作
 

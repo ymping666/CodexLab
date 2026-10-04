@@ -10,6 +10,14 @@
 - Labeled synthetic demo and a runnable toy reproducibility example.
 - English and Chinese installation guides, architecture documentation and interface previews.
 
+## v0.2 alpha — guided team selection
+
+- Four use-based entry points, team review and per-responsibility adjustment.
+- Five responsibility categories, fifteen named working styles and five scenario presets.
+- Host-dependent inline HTML with text fallback; full configuration handoff with clipboard/manual alternatives.
+- Configuration-only requests remain separate from scientific work; existing teams and runs are preserved.
+- Isolated package, browser interactions and independent first-use walkthrough checked. Style effectiveness and human usability remain unmeasured.
+
 ## Next iteration — validate with real users
 
 Recruit 3–5 researchers for one narrow AI research direction each. Observe setup success, unsupported Codex versions, actual agent dispatch, evidence quality and time spent by humans. Track model usage through the user's own Codex controls where available; do not estimate quota savings without measurements.

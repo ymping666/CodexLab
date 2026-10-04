@@ -1,5 +1,7 @@
 """Offline release checks for the installable Skill and optional legacy tooling."""
 from pathlib import Path
+import importlib.util
+import json
 import re
 import sys
 import tomllib
@@ -27,6 +29,25 @@ def main() -> int:
             if not candidate.exists():
                 errors.append(f"{filename}: broken local link {target}")
     skill = root / "skills" / "codexlab"
+    picker = skill / "assets" / "ui" / "role-picker.html"
+    try:
+        catalog = json.loads((skill / "references/catalog.json").read_text(encoding="utf-8"))
+        spec = importlib.util.spec_from_file_location("release_picker", skill / "scripts/prepare_role_picker.py")
+        helper = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(helper)
+        helper.validate_catalog(catalog)
+        fragment = picker.read_text(encoding="utf-8")
+        cached = re.search(r'<script id="codexlab-style-catalog" type="application/json">(.*?)</script>', fragment, re.S)
+        if not cached or json.loads(cached[1]) != catalog:
+            errors.append("Bundled role menu catalog differs from catalog.json")
+        if len(fragment.encode("utf-8")) >= 1_000_000 or re.search(r"(?i)<!doctype|<html\b|<head\b|<body\b|https?://|fetch\s*\(|XMLHttpRequest|WebSocket", fragment):
+            errors.append("Role menu must be a self-contained inline fragment under 1 MB")
+        for path in skill.rglob("*"):
+            if path.is_file() and path.suffix in {".md", ".py", ".html", ".yaml", ".json"}:
+                if "codexlab-v2" in path.read_text(encoding="utf-8"):
+                    errors.append(f"Public Skill still invokes local-only name: {path.relative_to(root).as_posix()}")
+    except (OSError, ValueError, KeyError, TypeError, AttributeError) as exc:
+        errors.append(f"Bundled role menu/catalog: {exc}")
     entry = skill / "SKILL.md"
     if not entry.is_file():
         errors.append("Installable Skill is missing skills/codexlab/SKILL.md")

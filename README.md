@@ -10,9 +10,9 @@ Use your eligible existing Codex plan; normal quotas apply. The default path req
 
 [GitHub](https://github.com/ymping666/CodexLab) · [简体中文](README.zh-CN.md) · [Installation guide](START_HERE.md) · [Skill instructions](skills/codexlab/SKILL.md) · [Roadmap](ROADMAP.md)
 
-![CodexLab conceptual research workspace — synthetic example](assets/codexlab-concept-demo.png)
+![CodexLab team setup: choose your purpose before choosing research styles](assets/codexlab-team-setup.png)
 
-*Alpha · Concept image with synthetic example data. The [actual local dashboard screenshot](assets/codexlab-dashboard-actual.jpg) shows synthetic artifact status; it is a separate, optional read-only tool.*
+*v0.2 alpha · Actual bundled team-menu screenshot. Interactive presentation requires a host with inline HTML support; other clients receive a text menu. The optional [artifact dashboard](assets/codexlab-dashboard-actual.jpg) is a separate read-only tool.*
 
 ## Install, then invoke
 
@@ -25,12 +25,11 @@ $skill-installer https://github.com/ymping666/CodexLab/tree/main/skills/codexlab
 After installation completes, try it in your **next message**:
 
 ```text
-$codexlab Research direction: reliable evaluation of long-horizon AI agents.
-Start with scope and prior art. Use native subagents for focused research
-tasks when available, and keep the evidence and handoffs in this project.
+$codexlab Help me choose a research team.
+Show the guided menu; configure the team only, without starting research.
 ```
 
-Replace the research direction with yours. If the client has not discovered the Skill, refresh its Skill list or follow its reload/restart guidance, then try again. [The official installer](https://github.com/openai/skills/tree/main/skills/.system/skill-installer) supports GitHub repository paths; installation is complete only after your own Codex confirms it.
+Choose a purpose, review the proposed team, and adjust individual responsibilities. Confirm in chat, then describe your topic and authorized task. You can also supply a research task directly and skip team setup. If the client has not discovered the Skill, refresh its Skill list or follow its reload/restart guidance, then try again. [The official installer](https://github.com/openai/skills/tree/main/skills/.system/skill-installer) supports GitHub repository paths; installation is complete only after your own Codex confirms it.
 
 CodexLab writes research artifacts under:
 
@@ -41,6 +40,27 @@ your-current-project/
 ```
 
 The invocation session acts as PI and uses four focused worker roles as needed. You stay in the current project; the default Skill workflow does not require opening a separate lab workspace.
+
+## Choose a purpose, then a team
+
+The guided menu starts with four concrete uses: **read papers and find a direction**, **refine an idea**, **design or advance experiments**, and **check results or reproduction**. Each opens a small suggested team with responsibilities shown beside names. Adjust one member at a time; all styles and five complete presets remain available on demand.
+
+| Responsibility | Three working styles |
+|---|---|
+| PI / current chat | Aster · synthesis / Orion · exploration / Quinn · decision focus |
+| Literature | Atlas · systematic mapping / Scout · frontier scan / Flint · counterevidence |
+| Method | Nova · mechanisms / Theo · theoretical constraints / Mira · minimal empirical test |
+| Experiment | Forge · engineering reproduction / Vector · statistical robustness / Pulse · small pilots |
+| Independent review | Sage · comprehensive audit / Rook · adversarial critique / Trace · reproduction audit |
+
+These are fifteen **instruction profiles across five responsibilities**, not fifteen concurrent agents or different models. Keep the PI; switch off specialists you do not need. Teams are starting suggestions, not experimentally proven best combinations.
+
+The flow is **choose purpose → review team → return to chat**. On supported hosts the final button requests a chat follow-up; otherwise copy or manually select the full instruction and send it yourself. Menu choices and copying do not confirm a team or start research. No browser service or Python is required for the bundled menu. See [teams, presets and examples](docs/teams.md).
+
+```text
+$codexlab Use Orion, Atlas and Theo to analyze my supplied research question.
+Analysis only; do not initialize a run or execute experiments.
+```
 
 ## Native workers with explicit research roles
 

@@ -17,6 +17,14 @@ The installed Skill contains its own workflow, team instructions, templates and 
 
 The current conversation is PI. It passes role instructions to available native subagents; it does not assume that installing the Skill registered four custom agent types. Model, tools, permissions and concurrency inherit from the current session. If native delegation is unavailable, the PI reports that limit and labels any serial fallback.
 
+## Optional team setup
+
+```text
+$codexlab Show the guided team menu. Configure only; do not start research.
+```
+
+Choose a purpose, review responsibilities and adjust styles, then confirm the complete instruction in chat. Inline HTML is optional and host-dependent; text selection works without it. All fifteen named profiles, five full presets, configuration-only behavior and update guidance are described in [team setup](teams.md) and [installation](../START_HERE.md). A direct scoped research request does not need this extra step.
+
 ## Create or resume materials
 
 Default output is `codexlab-runs/<topic-slug>/` inside the current project. The PI reports the actual output path. You can specify another authorized directory, ask for initialization only, or request review of existing material without starting a complete study.

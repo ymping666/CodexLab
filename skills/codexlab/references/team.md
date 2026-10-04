@@ -28,14 +28,18 @@ Use a separate task context; read original papers, code, raw runs and deviations
 
 PI fills this envelope and embeds the applicable role section above directly in the task. Do not assume the child can locate the installed skill or inherits the artifact directory.
 
+Named styles are overlays on these canonical responsibilities. Resolve the selected name through [catalog.json](catalog.json) and read [styles.md](styles.md). Include its strategy, deliverable focus and known limitation after the complete role contract. User scope, evidence constraints and budget prevail over stylistic preferences. Reviewer profiles Sage, Rook and Trace all require an independent context and the full reviewer checks; they differ in priority, not in waived checks. A PI profile changes the current conversation's coordination style and never creates another PI agent.
+
 ```text
 Business role: [literature / method / experiment / reviewer]
+Working profile: [canonical name; style; catalog schema version]
 Artifact root: [absolute path]
 Objective and stage: [bounded question and expected result]
 Input snapshot: [absolute files; current frozen decisions; source/run IDs]
 Exclusive writes: [absolute files/directories]
 Resource limit: [time, tools/data access, max runs/compute]
 Role instructions: [insert the complete applicable role section]
+Style instructions: [insert selected profile instructions and watch_out]
 No recursive spawning. Inherit active model/permissions; do not change config.
 Return: artifact paths; evidence/run IDs; observations vs interpretation;
 uncertainties; blockers; exact reproduction command when relevant; next action.

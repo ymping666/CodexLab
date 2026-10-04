@@ -24,7 +24,7 @@ review/report.md
 
 Before writing, replace every literal `{{PROJECT_NAME}}` with target directory basename, then every `{{TOPIC}}` with the trimmed topic. Preserve research TODO decisions. Prepare all content and exclusively create target/files; if target appears concurrently, stop without writing. Verify the copied file set, readability, substitutions, and empty ledgers. Keep the installed assets unchanged. Do not copy repository AGENTS.md, kickoff, or any `.codex` config; this skill supplies the session instructions directly.
 
-Create `.codexlab.json` with these required values: `schema_version: 1`, `codexlab_version: "0.1.0"`, `name: <target basename>`, `topic: <trimmed topic>`, `created_at: <actual ISO UTC timestamp>`, `synthetic_demo: false`, and `entrypoint: "skill"`. The extra entrypoint marks provenance while retaining compatibility with optional legacy CodexLab artifact tools. No legacy tool is required to run this skill.
+Create `.codexlab.json` with these required values: `schema_version: 1`, `codexlab_version: "0.2.0"`, `name: <target basename>`, `topic: <trimmed topic>`, `created_at: <actual ISO UTC timestamp>`, `synthetic_demo: false`, and `entrypoint: "skill"`. The extra entrypoint marks provenance while retaining compatibility with optional legacy CodexLab artifact tools. No legacy tool is required to run this skill.
 
 File tools are sufficient without Python. If Python already exists, the bundled stdlib helper is optional:
 

@@ -18,3 +18,13 @@ jobs:
       - run: python -m unittest discover -s tests -v
       - run: python -m codexlab --help
       - run: python scripts/check_release.py
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save --package-lock=false playwright@1.62.1
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/check_role_picker.cjs

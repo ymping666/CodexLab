@@ -1,4 +1,4 @@
 interface:
   display_name: "CodexLab"
-  short_description: "Run a five-role research lab with native Codex agents"
-  default_prompt: "Use $codexlab to run a research lab for my topic within my available data and compute budget."
+  short_description: "Choose named research roles for your Codex project"
+  default_prompt: "Use $codexlab to show the research roles and help me choose a team for my task."

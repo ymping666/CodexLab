@@ -1,11 +1,19 @@
 ---
 name: codexlab
-description: Coordinate AI research in Codex with a PI and four specialist roles, verified sources, reproducible experiments, and independent review. Use for research-lab runs, bounded research stages, or resuming a CodexLab study; preserve analysis-only requests and existing project scope.
+description: Choose research responsibilities and named working styles in Codex, show categorized role menus, recommend scenario-specific teams, and coordinate bounded research with verified sources and independent review. Use for team configuration, bounded research stages, or resuming a CodexLab study; preserve analysis-only requests and existing project scope.
 ---
 
 # CodexLab
 
 The current Codex conversation is the Principal Investigator (PI). This skill packages research instructions and materials; Codex's native tools provide delegation and model execution. It works from this installed folder without the source repository or Python CLI. Installing the skill does **not** register custom agent types or activate TOML configurations.
+
+## Choose named specialists
+
+Read [references/roster.md](references/roster.md) for menus, named-role invocation, team recommendations, or changes. The [catalog](references/catalog.json) defines five responsibility categories and three working styles in each; [styles.md](references/styles.md) defines their operational differences. Keep one PI style in the current conversation and normally at most one specialist style per remaining category. Fifteen available profiles do not mean fifteen concurrent agents. Original names Aster, Atlas, Nova, Forge and Sage remain supported.
+
+For a role menu, read [references/presentation.md](references/presentation.md). Present the bundled interactive cards when the host explicitly supports inline HTML; otherwise show the same roles and presets as a text menu. A Skill installation alone does not register a UI surface. Card selection is a draft; only an explicit chat instruction confirms the team.
+
+A role-menu or team-configuration request without a scientific task is configuration-only: show the requested choices without initializing research materials, spawning specialists, searching sources, or running experiments. A visual menu may copy its bundled presentation file to an authorized writable preview location; that file is not a research run. When selection accompanies a scientific task, honor both the named roles and the requested task scope. For an ordinary research request, infer the minimum relevant roles and briefly show the assignment; do not force an extra selection step. Names identify task instructions, not persistent agents, custom runtime types, or model selection.
 
 ## Route the request
 
@@ -14,7 +22,7 @@ The current Codex conversation is the Principal Investigator (PI). This skill pa
 - **Initialize only:** Create materials and report their absolute path; do not start research or spawn the team.
 - **Resume:** Read existing artifacts, a valid lab manifest, and decisions. Continue the requested scope without rebuilding or clearing files. An existing code project is not automatically a request for a full lab run.
 
-For initialization/resume and scientific stage requirements, read [references/protocol.md](references/protocol.md). Before any specialist delegation, read [references/team.md](references/team.md) and pass the applicable role instructions directly in the task. Resolve these links relative to this installed skill directory, never a presumed repository checkout.
+For initialization/resume and scientific stage requirements, read [references/protocol.md](references/protocol.md). Before specialist delegation, read [references/team.md](references/team.md) and the selected style from catalog.json/styles.md. Pass the complete canonical responsibility contract followed by its style instructions directly in the task. Scope, evidence and independent-review requirements take precedence over style. Resolve links relative to this installed Skill, never a presumed repository checkout.
 
 ## Workspace and delegation
 
