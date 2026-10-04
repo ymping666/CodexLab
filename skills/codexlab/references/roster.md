@@ -1,26 +1,26 @@
 # Responsibilities, styles and team selection
 
-The single selection directory is [catalog.json](catalog.json). It has five responsibility categories and three named profiles per category. See [styles.md](styles.md) for strategies and recommendation tradeoffs, [style-foundations.md](style-foundations.md) for scholarly design references, and [team.md](team.md) for the non-negotiable scientific contracts.
+The single selection directory is [catalog.json](catalog.json). It has five responsibility categories and three named profiles per category. Canonical descriptions and style instructions are English; `translations.zh-CN` provides Chinese display labels, summaries and cautions. See [styles.md](styles.md) for strategies and recommendation tradeoffs, [style-foundations.md](style-foundations.md) for scholarly design references, and [team.md](team.md) for the non-negotiable scientific contracts.
 
 Names are fictional task identities, not real researchers, endorsements, distinct models, custom agent types or persistent memories. Published research practices inspire the strategies; they do not establish that these agents emulate their authors or improve scientific outcomes.
 
 ## Category and profile mapping
 
-| Category ID | 中文职责 | Profiles: English short name + 中文风格 |
+| Category ID | Responsibility / 中文职责 | Profiles and English working styles |
 | --- | --- | --- |
-| pi | 研究负责人，当前会话 | Aster 综合统筹 / Orion 探索驱动 / Quinn 决策收敛 |
-| literature | 文献科学家 | Atlas 系统综述 / Scout 前沿雷达 / Flint 反证检索 |
-| method | 方法科学家 | Nova 机制驱动 / Theo 理论约束 / Mira 极简实证 |
-| experiment | 实验科学家 | Forge 工程复现 / Vector 统计稳健 / Pulse 小步验证 |
-| reviewer | 独立审查员 | Sage 综合审查 / Rook 对抗挑错 / Trace 复现审计 |
+| pi | Principal Investigator, current chat / 研究负责人 | Aster Synthesis / Orion Exploration / Quinn Decision focus |
+| literature | Literature Scientist / 文献科学家 | Atlas Systematic mapping / Scout Frontier scan / Flint Counterevidence |
+| method | Method Scientist / 方法科学家 | Nova Mechanisms / Theo Theoretical constraints / Mira Minimal empirical test |
+| experiment | Experiment Scientist / 实验科学家 | Forge Engineering reproduction / Vector Statistical robustness / Pulse Small pilots |
+| reviewer | Independent Reviewer / 独立审查员 | Sage Comprehensive audit / Rook Adversarial critique / Trace Reproduction audit |
 
 The current chat remains PI whichever PI profile is selected. Default PI is Aster. Remaining categories may be inactive. Normally choose one profile per category, so a complete team is still five responsibilities with at most four child agents; honor lower runtime limits and stage dependencies. Do not spawn all selectable profiles.
 
 ## Resolve a selection
 
-- Accept a name case-insensitively. A canonical category ID or Chinese responsibility selects its original default profile (Aster/Atlas/Nova/Forge/Sage), unless a style is specified. Resolve style-only phrases within the named category; ambiguous requests such as “复现风格” without a category need clarification.
+- Accept a name case-insensitively. A canonical category ID, English responsibility or Chinese responsibility selects its original default profile (Aster/Atlas/Nova/Forge/Sage), unless a style is specified. Resolve English or Chinese style phrases within the named category; ambiguous requests such as “reproduction style” without a category need clarification.
 - Preserve old named requests and historical records. Atlas + Nova maps to literature + method with Aster coordinating, not a full team. Legacy preset aliases remain: 找方向=Aster+Atlas+Nova; 推实验=Aster+Nova+Forge+Sage; 帮我审=Aster+Sage; 完整团队=the five original profiles.
-- Explicit names and exclusions prevail over a recommendation. A complete slot instruction such as `PI=Quinn；文献=Flint；方法=Mira；实验=Pulse；审查=Trace` confirms exactly those choices. `不启用` means an inactive specialist slot; PI cannot be inactive. Do not silently fill omitted specialist slots in a new explicit named list. For a scoped change to an existing team, preserve unchanged slots.
+- Explicit names and exclusions prevail over a recommendation. A complete slot instruction such as `PI=Quinn; Literature=Flint; Method=Mira; Experiment=Pulse; Reviewer=Trace` confirms exactly those choices; Chinese slot labels remain supported. `inactive` or `不启用` means an inactive specialist slot; PI cannot be inactive. Do not silently fill omitted specialist slots in a new explicit named list. For a scoped change to an existing team, preserve unchanged slots.
 - Two profiles from one category in a single-team request, an unknown name, or incompatible selections require resolving that conflict before dependent work. Do not silently discard, rename or spawn duplicates. An explicitly requested multi-perspective comparison can use bounded sequential passes within resources; it is not a default team-size change and must retain review independence.
 - A recommendation may suggest a catalog preset with its scenario and tradeoff. Without context, provide a clearly labelled provisional suggestion, not a mandatory questionnaire. Recommendations are design heuristics, not experimentally proven best combinations or predictions of paper acceptance.
 

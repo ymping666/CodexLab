@@ -34,9 +34,9 @@ const slots=['pi','literature','method','experiment','reviewer'];
   assert.equal(await page.locator('[data-goal][aria-pressed="true"]').count(),0);
   await page.locator('.lab').screenshot({path:path.join(base,'start-desktop.png')});
   await teamFor(page);
-  assert.deepEqual(await chosen(page),{pi:'Orion',literature:'Atlas',method:'Nova',experiment:'暂不启用',reviewer:'暂不启用'});
+  assert.deepEqual(await chosen(page),{pi:'Orion',literature:'Atlas',method:'Nova',experiment:'Inactive',reviewer:'Inactive'});
   assert.equal(await page.locator('.primary:visible').count(),1);
-  assert.equal(await page.locator('.confirm').textContent(),'选中指令，手动复制');
+  assert.equal(await page.locator('.confirm').textContent(),'Select instruction to copy manually');
   assert.equal(await page.locator('.prompt').isVisible(),false);
   assert.equal(await page.locator('.presets').isVisible(),false);
   await page.locator('[data-edit="method"]').click();
@@ -46,7 +46,7 @@ const slots=['pi','literature','method','experiment','reviewer'];
   assert.equal((await chosen(page)).method,'Theo');
   assert.equal((await chosen(page)).literature,'Atlas');
   await page.locator('.back-team').click();
-  assert.ok((await page.locator('.reason').textContent()).includes('按你的选择调整'));
+  assert.ok((await page.locator('.reason').textContent()).includes('Adjusted to your choices'));
   await page.locator('.back-start').click();
   assert.equal((await chosen(page)).method,'Theo','Back navigation must preserve adjustment');
   await page.locator('[data-goal="explore"]').click();
@@ -54,26 +54,27 @@ const slots=['pi','literature','method','experiment','reviewer'];
   await page.locator('.next').click();
   assert.equal((await chosen(page)).method,'Theo');
   await page.locator('.advanced summary').click();
-  for(const preset of catalog.presets){await page.locator(`[data-preset="${preset.id}"]`).click();assert.deepEqual(await chosen(page),Object.fromEntries(slots.map(id=>[id,preset.selection[id] || '暂不启用'])));}
+  for(const preset of catalog.presets){await page.locator(`[data-preset="${preset.id}"]`).click();assert.deepEqual(await chosen(page),Object.fromEntries(slots.map(id=>[id,preset.selection[id] || 'Inactive'])));}
   await page.locator('[data-edit="pi"]').click();assert.equal(await page.locator('.disable-role').isVisible(),false);
   for(const id of slots.slice(1)){await page.locator('.category-select').selectOption(id);await page.locator('.disable-role').click();assert.equal((await page.locator('.profile-detail').textContent()).trim(),'');}
-  await page.locator('.back-team').click();assert.ok((await page.locator('.team-size').textContent()).includes('当前 1 个角色'));
+  await page.locator('.back-team').click();assert.ok((await page.locator('.team-size').textContent()).includes('1 roles'));
   await page.locator('.confirm').click();
   assert.equal(await page.locator('.command').getAttribute('open'),'');
   assert.equal(await page.locator('.prompt').evaluate(node=>node.selectionEnd-node.selectionStart),(await page.locator('.prompt').inputValue()).length);
   assert.equal(await page.evaluate(()=>window.calls.length),0);
   const clipboard=await fixture('clipboard');await teamFor(clipboard,'idea');await clipboard.locator('.confirm').click();
-  assert.equal(await clipboard.evaluate(()=>window.clipboardTexts.length),1);assert.ok((await clipboard.locator('.status').textContent()).includes('发送后，才会确认'));
+  assert.equal(await clipboard.evaluate(()=>window.clipboardTexts.length),1);assert.ok((await clipboard.locator('.status').textContent()).includes('send in chat to confirm'));
   assert.equal(await clipboard.evaluate(()=>window.calls.length),0);
   const denied=await fixture('clipboard-denied');await teamFor(denied);await denied.locator('.confirm').click();
-  assert.equal(await denied.locator('.confirm').textContent(),'选中指令，手动复制');assert.equal(await denied.locator('.prompt').isVisible(),true);
+  assert.equal(await denied.locator('.confirm').textContent(),'Select instruction to copy manually');assert.equal(await denied.locator('.prompt').isVisible(),true);
   await denied.locator('.confirm').click();assert.equal(await denied.evaluate(()=>window.clipboardTexts.length),1,'Denied clipboard falls back to manual selection without repeated writes');
   const live=await fixture('host');await teamFor(live,'experiment');
   assert.deepEqual(await live.evaluate(()=>[window.calls.length,window.saves.length>0]),[0,true]);
   await live.locator('.confirm').click();assert.equal(await live.locator('.back-start').isDisabled(),true);assert.equal(await live.locator('[data-edit="method"]').isDisabled(),true);
   await live.locator('.confirm').evaluate(node=>node.click());assert.equal(await live.evaluate(()=>window.calls.length),1);
-  assert.equal(await live.evaluate(()=>window.calls[0].prompt),'$codexlab 团队配置：PI=Aster；文献=Atlas；方法=Nova；实验=Forge；审查=Sage。先只配置团队，不开始研究。');
-  await live.evaluate(()=>window.finish());await live.waitForFunction(()=>document.querySelector('.status').textContent.includes('以聊天回复为准'));
+  assert.equal(await live.evaluate(()=>window.calls[0].prompt),'$codexlab Team configuration: PI=Aster; Literature=Atlas; Method=Nova; Experiment=Forge; Reviewer=Sage. Configure the team only; do not start research.');
+  assert.equal(await live.locator('.language-select').isDisabled(),true);
+  await live.evaluate(()=>window.finish());await live.waitForFunction(()=>document.querySelector('.status').textContent.includes('chat reply determines'));
   assert.equal(await live.locator('.confirm').isDisabled(),true);assert.equal(await live.locator('[data-step="chat"]').getAttribute('aria-current'),'step');
   const rejected=await fixture('reject');await teamFor(rejected);await rejected.locator('.confirm').click();assert.equal(await rejected.evaluate(()=>window.calls.length),1);assert.equal(await rejected.locator('.confirm').isDisabled(),false);assert.equal(await rejected.locator('.prompt').isVisible(),true);
   const legacy=await fixture('state',null,{modelContent:{prototype:'CodexLab v2',selected:['Atlas','Nova','Forge','Sage','Unknown'],scope:'team-configuration-only'}});
@@ -84,8 +85,8 @@ const slots=['pi','literature','method','experiment','reviewer'];
   assert.equal((await chosen(legacy)).pi,'Aster');
   const explicit={selection:{pi:'Quinn',literature:'Flint',method:'Mira',experiment:null,reviewer:'Rook'},ignoreSavedState:true};
   const confirmed=await fixture('state',explicit,{modelContent:{prototype:'CodexLab v2',schemaVersion:2,selection:{pi:'Aster',literature:'Atlas',method:'Nova',experiment:'Forge',reviewer:'Sage'},scope:'team-configuration-only'}});
-  assert.equal((await chosen(confirmed)).pi,'Quinn');assert.ok((await confirmed.locator('.draft-note').textContent()).includes('已确认'));
-  await confirmed.locator('[data-edit="method"]').click();await confirmed.locator('.back-team').click();assert.ok((await confirmed.locator('.draft-note').textContent()).includes('已确认'),'Navigation alone must not relabel an unchanged confirmed team');
+  assert.equal((await chosen(confirmed)).pi,'Quinn');assert.ok((await confirmed.locator('.draft-note').textContent()).includes('confirmed team'));
+  await confirmed.locator('[data-edit="method"]').click();await confirmed.locator('.back-team').click();assert.ok((await confirmed.locator('.draft-note').textContent()).includes('confirmed team'),'Navigation alone must not relabel an unchanged confirmed team');
   const draft=await fixture('state');await teamFor(draft,'idea');const draftPrompt=await draft.locator('.prompt').inputValue();
   await draft.evaluate(()=>window.dispatchEvent(new CustomEvent('openai:set_globals',{detail:{globals:{widgetState:{modelContent:{prototype:'CodexLab v2',schemaVersion:2,selection:{pi:'Aster',literature:'Atlas',method:'Nova',experiment:null,reviewer:null},scope:'team-configuration-only'}}}}})));
   assert.equal(await draft.locator('.prompt').inputValue(),draftPrompt,'Delayed state must not overwrite a local choice');
@@ -93,21 +94,72 @@ const slots=['pi','literature','method','experiment','reviewer'];
   assert.equal(await hydration.locator('.team-view').isVisible(),true);assert.equal((await chosen(hydration)).pi,'Quinn');
   const storage=await fixture('storage-fails');await teamFor(storage);assert.equal((await chosen(storage)).pi,'Orion');
   const keyboard=await fixture();await keyboard.locator('[data-goal="explore"]').focus();await keyboard.keyboard.press('Enter');await keyboard.locator('.next').focus();await keyboard.keyboard.press('Enter');
-  assert.equal(await keyboard.locator('.team-view').isVisible(),true);await keyboard.locator('[data-edit="method"]').focus();await keyboard.keyboard.press('Enter');await keyboard.locator('.category-select').selectOption('experiment');assert.equal(await keyboard.locator('.panel-title').textContent(),'实验科学家');
+  assert.equal(await keyboard.locator('.team-view').isVisible(),true);await keyboard.locator('[data-edit="method"]').focus();await keyboard.keyboard.press('Enter');await keyboard.locator('.category-select').selectOption('experiment');assert.equal(await keyboard.locator('.panel-title').textContent(),'Experiment Scientist');
+  async function englishOnly(preview){
+   const visible=await preview.locator('.lab').innerText();
+   assert.ok(!/\p{Script=Han}/u.test(visible.replace('中文','')),'English interface contains untranslated visible text');
+   const labels=await preview.locator('[aria-label]').evaluateAll(nodes=>nodes.map(node=>node.getAttribute('aria-label')).join('\n'));
+   assert.ok(!/\p{Script=Han}/u.test(labels),'English accessibility labels contain untranslated text');
+   assert.equal(await preview.locator('#codexlab-role-picker').getAttribute('lang'),'en');
+  }
+  const bilingual=await fixture('clipboard');await englishOnly(bilingual);
+  await bilingual.locator('.language-select').selectOption('zh-CN');
+  assert.equal(await bilingual.locator('.start-view h2').textContent(),'你现在想做什么？');
+  assert.equal(await bilingual.locator('[data-goal][aria-pressed="true"]').count(),0);
+  await teamFor(bilingual,'idea');await bilingual.locator('[data-edit="method"]').click();await bilingual.locator('[data-profile="Theo"]').click();
+  const edited=await chosen(bilingual);
+  await bilingual.locator('.language-select').selectOption('en');
+  assert.equal(await bilingual.locator('.edit-view').isVisible(),true);
+  assert.equal(await bilingual.locator('.category-select').inputValue(),'method');
+  assert.equal(await bilingual.locator('[data-profile="Theo"]').getAttribute('aria-pressed'),'true');await englishOnly(bilingual);
+  assert.equal((await chosen(bilingual)).literature,edited.literature);
+  for(const category of catalog.categories){
+   await bilingual.locator('.category-select').selectOption(category.id);
+   for(const profile of category.profiles){
+    await bilingual.locator(`[data-profile="${profile.name}"]`).click();await englishOnly(bilingual);
+    const before=await chosen(bilingual);await bilingual.locator('.language-select').selectOption('zh-CN');
+    assert.deepEqual(await chosen(bilingual),{...before,experiment:before.experiment==='Inactive' ? '暂不启用' : before.experiment,reviewer:before.reviewer==='Inactive' ? '暂不启用' : before.reviewer});
+    assert.equal(await bilingual.locator(`[data-profile="${profile.name}"] .summary`).textContent(),profile.translations['zh-CN'].summary);
+    assert.ok((await bilingual.locator('.profile-detail').textContent()).includes(profile.translations['zh-CN'].watch_out));
+    await bilingual.locator('.language-select').selectOption('en');
+   }
+  }
+  await bilingual.locator('.back-team').click();await bilingual.locator('.advanced summary').click();
+  for(const preset of catalog.presets){
+   await bilingual.locator(`[data-preset="${preset.id}"]`).click();await englishOnly(bilingual);
+   const before=await chosen(bilingual);await bilingual.locator('.language-select').selectOption('zh-CN');assert.deepEqual(await chosen(bilingual),before);
+   assert.equal(await bilingual.locator(`[data-preset="${preset.id}"]`).textContent(),preset.translations['zh-CN'].label);
+   assert.ok((await bilingual.locator('.preset-tradeoff').textContent()).includes(preset.translations['zh-CN'].tradeoff));await bilingual.locator('.language-select').selectOption('en');
+  }
+  await bilingual.locator('.confirm').click();assert.ok((await bilingual.evaluate(()=>window.clipboardTexts.at(-1))).endsWith('Configure the team only; do not start research.'));
+  await bilingual.locator('.language-select').selectOption('zh-CN');await bilingual.locator('.confirm').click();assert.ok((await bilingual.evaluate(()=>window.clipboardTexts.at(-1))).endsWith('先只配置团队，不开始研究。'));
+  assert.equal(await bilingual.evaluate(()=>window.calls.length),0,'Language and copy actions must not dispatch');
+  await live.locator('.language-select').selectOption('zh-CN');assert.equal(await live.locator('.confirm').isDisabled(),true,'Switching language after handoff must not enable duplicate dispatch');
+  await live.locator('.confirm').evaluate(node=>node.click());assert.equal(await live.evaluate(()=>window.calls.length),1);
+  assert.ok((await live.locator('.status').textContent()).includes('以聊天回复为准'));
+  assert.equal(await live.evaluate(()=>window.saves.at(-1).privateContent.language),'zh-CN');
+  const zhLive=await fixture('host',{language:'zh-CN'});await teamFor(zhLive,'experiment');await zhLive.locator('.confirm').click();
+  assert.equal(await zhLive.evaluate(()=>window.calls[0].prompt),'$codexlab 团队配置：PI=Aster；文献=Atlas；方法=Nova；实验=Forge；审查=Sage。先只配置团队，不开始研究。');
+  await zhLive.evaluate(()=>window.finish());await zhLive.waitForFunction(()=>document.querySelector('.confirm').disabled);
+  const savedLanguage={modelContent:{prototype:'CodexLab v2',schemaVersion:2,selection:explicit.selection,scope:'team-configuration-only'},privateContent:{language:'zh-CN',category:'method',view:'edit'}};
+  const restoredLanguage=await fixture('state',null,savedLanguage);assert.equal(await restoredLanguage.locator('.language-select').inputValue(),'zh-CN');assert.equal(await restoredLanguage.locator('.edit-view').isVisible(),true);
+  const preferredLanguage=await fixture('state',{language:'en'},savedLanguage);await englishOnly(preferredLanguage);assert.equal((await chosen(preferredLanguage)).pi,'Quinn');
+  const invalidLanguage=await fixture('state',{language:'unsupported'}, {...savedLanguage,privateContent:{language:'unsupported'}});await englishOnly(invalidLanguage);
+  await confirmed.locator('.language-select').selectOption('zh-CN');assert.ok((await confirmed.locator('.draft-note').textContent()).includes('已确认'));assert.equal((await chosen(confirmed)).pi,'Quinn');
   const layouts=[];
-  for(const width of [320,390,736]){
-   const preview=await fixture();await preview.setViewportSize({width,height:1100});
-   const startHeight=await preview.locator('.lab').evaluate(root=>Math.ceil(root.getBoundingClientRect().height));await preview.locator('.lab').screenshot({path:path.join(base,`start-${width}.png`)});
+  for(const language of ['en','zh-CN'])for(const width of [320,390,736]){
+   const preview=await fixture('none',{language});await preview.setViewportSize({width,height:1100});
+   const startHeight=await preview.locator('.lab').evaluate(root=>Math.ceil(root.getBoundingClientRect().height));await preview.locator('.lab').screenshot({path:path.join(base,`start-${language}-${width}.png`)});
    await teamFor(preview);const teamHeight=await preview.locator('.lab').evaluate(root=>Math.ceil(root.getBoundingClientRect().height));
    assert.ok(await preview.locator('#codexlab-role-picker').evaluate(root=>root.scrollWidth<=root.clientWidth));
-   await preview.locator('.lab').screenshot({path:path.join(base,`team-${width}.png`)});
-   await preview.locator('[data-edit="method"]').click();assert.ok(await preview.locator('#codexlab-role-picker').evaluate(root=>root.scrollWidth<=root.clientWidth));await preview.locator('.lab').screenshot({path:path.join(base,`edit-${width}.png`)});
+   await preview.locator('.lab').screenshot({path:path.join(base,`team-${language}-${width}.png`)});
+   await preview.locator('[data-edit="method"]').click();assert.ok(await preview.locator('#codexlab-role-picker').evaluate(root=>root.scrollWidth<=root.clientWidth));await preview.locator('.lab').screenshot({path:path.join(base,`edit-${language}-${width}.png`)});
    await preview.locator('.back-team').click();await preview.locator('.confirm').click();await preview.waitForFunction(()=>{const prompt=document.querySelector('.prompt');return prompt.scrollHeight<=prompt.clientHeight;});
-   layouts.push({width,startHeight,teamHeight,overflow:false});
+   layouts.push({language,width,startHeight,teamHeight,overflow:false});
   }
   await clipboard.emulateMedia({colorScheme:'dark'});await clipboard.locator('.lab').screenshot({path:path.join(base,'team-dark.png')});
   assert.deepEqual(errors,[]);
-  const result={firstScreen:'four uses; no preselection; one primary action',teamReview:'Chinese responsibilities + per-row editing',profileAndPresetSelection:'PASS',navigationPreservesChoice:'PASS',clipboardAndManualFallback:'PASS',hostBridge:'PASS (mock)',noAutomaticResearchOrSend:true,legacyAndExplicitAndDelayedState:'PASS',keyboard:'native buttons/select PASS',layouts,pageErrors:errors};
+  const result={firstScreen:'four uses; no preselection; one primary action',teamReview:'localized responsibilities + per-row editing',languages:'English default; Chinese switch; all 15 profiles and 5 presets PASS',languagePreservesSelectionAndPreventsDuplicateHandoff:'PASS',profileAndPresetSelection:'PASS',navigationPreservesChoice:'PASS',clipboardAndManualFallback:'PASS',hostBridge:'PASS (mock)',noAutomaticResearchOrSend:true,legacyAndExplicitAndDelayedState:'PASS',keyboard:'native buttons/select PASS',layouts,pageErrors:errors};
   fs.writeFileSync(path.join(base,'browser-results.json'),JSON.stringify(result,null,2));console.log(JSON.stringify(result));
  }finally{await browser.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;});

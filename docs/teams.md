@@ -3,7 +3,7 @@
 CodexLab v0.2 keeps the same installation path and `$codexlab` command. Team configuration is optional: a direct request with a topic and task goes straight to that scope. For a menu:
 
 ```text
-$codexlab 帮我选择研究团队，先只配置团队，不开始研究。
+$codexlab Help me choose a research team. Configure only; do not start research.
 ```
 
 ## Start with a purpose
@@ -17,7 +17,9 @@ $codexlab 帮我选择研究团队，先只配置团队，不开始研究。
 
 These entry points choose candidate teams, not scientific stages. Selecting an experiment-oriented team does not authorize running experiments. When independent review is inactive, it remains pending; PI self-check does not replace it.
 
-The optional HTML menu first asks what you want to do, then shows responsibilities and members together. Adjust a single row, return to the summary, and confirm the complete configuration in chat. Going back preserves adjustments; selecting a different purpose or a full preset replaces the candidate team.
+The optional HTML menu defaults to English. Its **English / 中文** select changes purpose cards, responsibilities, styles, presets, status messages and the full configuration instruction together, preserving members and the current view. You can explicitly request a Chinese menu in chat. Text menus and replies follow your requested or conversational language.
+
+The menu first asks what you want to do, then shows responsibilities and members together. Adjust a single row, return to the summary, and confirm the complete configuration in chat. Going back preserves adjustments; selecting a different purpose or a full preset replaces the candidate team.
 
 Interactive rendering requires a host with inline HTML support. Otherwise Codex shows a text menu. A supported chat bridge can request a follow-up; other hosts offer copy or manual text selection. Send that instruction in chat to confirm. Saved menu state and copying alone are unconfirmed drafts. No local server, package installation or Python is needed for the ready menu.
 
@@ -25,11 +27,11 @@ Interactive rendering requires a host with inline HTML support. Otherwise Codex 
 
 | 职责 / Responsibility | Profiles |
 |---|---|
-| 研究负责人 / PI, current chat | Aster 综合统筹 · Orion 探索驱动 · Quinn 决策收敛 |
-| 文献科学家 / Literature | Atlas 系统综述 · Scout 前沿雷达 · Flint 反证检索 |
-| 方法科学家 / Method | Nova 机制驱动 · Theo 理论约束 · Mira 极简实证 |
-| 实验科学家 / Experiment | Forge 工程复现 · Vector 统计稳健 · Pulse 小步验证 |
-| 独立审查员 / Reviewer | Sage 综合审查 · Rook 对抗挑错 · Trace 复现审计 |
+| PI, current chat / 研究负责人 | Aster Synthesis · Orion Exploration · Quinn Decision focus |
+| Literature / 文献科学家 | Atlas Systematic mapping · Scout Frontier scan · Flint Counterevidence |
+| Method / 方法科学家 | Nova Mechanisms · Theo Theoretical constraints · Mira Minimal empirical test |
+| Experiment / 实验科学家 | Forge Engineering reproduction · Vector Statistical robustness · Pulse Small pilots |
+| Reviewer / 独立审查员 | Sage Comprehensive audit · Rook Adversarial critique · Trace Reproduction audit |
 
 Choose one PI style and normally at most one profile per specialist responsibility. Other responsibilities may be inactive. The current chat remains PI; runtime concurrency may require scheduling fewer workers at once. Names represent fictional instruction profiles, not real scholars, separate models, registered agent types or persistent memories.
 
@@ -52,20 +54,20 @@ These are adjustable design heuristics, not proven best teams. Small pilots cann
 ## Explicit configuration and bounded tasks
 
 ```text
-$codexlab 团队配置：PI=Orion；文献=Atlas；方法=Theo；实验=不启用；审查=不启用。先只配置团队，不开始研究。
+$codexlab Team configuration: PI=Orion; Literature=Atlas; Method=Theo; Experiment=inactive; Reviewer=inactive. Configure the team only; do not start research.
 ```
 
 Then supply your topic, available material and requested scope, for example:
 
 ```text
-$codexlab 使用刚才的团队分析我提供的研究假设。
-只做分析，不初始化目录、不运行实验。缺少来源或证明时明确指出。
+$codexlab Use the configured team to analyze my supplied hypothesis.
+Analysis only: do not initialize directories or run experiments. State missing sources or proofs.
 ```
 
 You can configure and request a task together. Explicit names and exclusions prevail over recommendations. A scoped team change preserves other slots:
 
 ```text
-$codexlab 把方法风格改为 Mira，其余保持原样。先只配置团队。
+$codexlab Switch Method to Mira; keep other roles unchanged. Configure only.
 ```
 
 To resume a managed run, name its original directory and preserve evidence. Never initialize over an existing run. Original names Aster / Atlas / Nova / Forge / Sage and legacy manifests remain supported; see [installation and update guidance](../START_HERE.md).

@@ -13,6 +13,8 @@ Read [references/roster.md](references/roster.md) for menus, named-role invocati
 
 For a role menu, read [references/presentation.md](references/presentation.md). Present the bundled interactive cards when the host explicitly supports inline HTML; otherwise show the same roles and presets as a text menu. A Skill installation alone does not register a UI surface. Card selection is a draft; only an explicit chat instruction confirms the team.
 
+The bundled menu defaults to English and offers an English / 中文 switch. Honor an explicit language preference when preparing a preview; present text menus and chat replies in the user's requested or conversational language. The catalog's canonical descriptions and style instructions are English, with Simplified Chinese display translations. Accept both English and Chinese responsibility labels and inactive-slot wording; language changes do not change role identities, scope or authorization.
+
 A role-menu or team-configuration request without a scientific task is configuration-only: show the requested choices without initializing research materials, spawning specialists, searching sources, or running experiments. A visual menu may copy its bundled presentation file to an authorized writable preview location; that file is not a research run. When selection accompanies a scientific task, honor both the named roles and the requested task scope. For an ordinary research request, infer the minimum relevant roles and briefly show the assignment; do not force an extra selection step. Names identify task instructions, not persistent agents, custom runtime types, or model selection.
 
 ## Route the request

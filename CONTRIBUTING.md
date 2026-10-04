@@ -26,7 +26,7 @@ Keep initialization exclusive: do not overwrite existing directories or research
 
 For Skill changes, exercise relevant behavior from a separate installed copy without repository imports. Update both README languages when user-facing behavior changes. Keep public documentation focused on usage and implementation.
 
-The role catalog lives in `skills/codexlab/references/catalog.json`; refresh the embedded catalog in `assets/ui/role-picker.html` after changes. `scripts/check_release.py` checks their equality and validates the catalog. The optional preparation helper writes a new self-contained fragment and refuses overwrites.
+The role catalog lives in `skills/codexlab/references/catalog.json`; keep its English canonical fields and complete `translations.zh-CN` display fields aligned, then refresh the embedded catalog in `assets/ui/role-picker.html`. `scripts/check_release.py` checks their equality and validates translation completeness. Keep UI strings in the fragment's bilingual message table and localize accessibility labels, statuses and configuration instructions too. The optional preparation helper accepts `--language en` or `--language zh-CN`, writes a new self-contained fragment and refuses overwrites.
 
 Browser regression checks use Playwright as a development dependency, not a user installation prerequisite:
 

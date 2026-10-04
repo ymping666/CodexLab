@@ -12,7 +12,7 @@ Use your eligible existing Codex plan; normal quotas apply. The default path req
 
 ![CodexLab team setup: choose your purpose before choosing research styles](assets/codexlab-team-setup.png)
 
-*v0.2 alpha · Actual bundled team-menu screenshot. Interactive presentation requires a host with inline HTML support; other clients receive a text menu. The optional [artifact dashboard](assets/codexlab-dashboard-actual.jpg) is a separate read-only tool.*
+*v0.2 alpha · Actual bundled team-menu screenshot. The menu defaults to English; switch to 中文 without losing your choices. Interactive presentation requires a host with inline HTML support; other clients receive a text menu. The optional [artifact dashboard](assets/codexlab-dashboard-actual.jpg) is a separate read-only tool.*
 
 ## Install, then invoke
 
@@ -55,7 +55,7 @@ The guided menu starts with four concrete uses: **read papers and find a directi
 
 These are fifteen **instruction profiles across five responsibilities**, not fifteen concurrent agents or different models. Keep the PI; switch off specialists you do not need. Teams are starting suggestions, not experimentally proven best combinations.
 
-The flow is **choose purpose → review team → return to chat**. On supported hosts the final button requests a chat follow-up; otherwise copy or manually select the full instruction and send it yourself. Menu choices and copying do not confirm a team or start research. No browser service or Python is required for the bundled menu. See [teams, presets and examples](docs/teams.md).
+The flow is **choose purpose → review team → return to chat**. The **Language** selector switches the entire menu between English and Simplified Chinese, including roles, styles, presets and configuration instructions. It preserves your team and current step. On supported hosts the final button requests a chat follow-up; otherwise copy or manually select the full instruction and send it yourself. Menu choices and copying do not confirm a team or start research. No browser service or Python is required for the bundled menu. See [teams, presets and examples](docs/teams.md).
 
 ```text
 $codexlab Use Orion, Atlas and Theo to analyze my supplied research question.

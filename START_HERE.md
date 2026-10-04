@@ -17,7 +17,7 @@ $codexlab 帮我选择研究团队，展示引导菜单。
 先只配置团队，不开始研究。
 ```
 
-先选用途，再核对团队，点击每行的“调整”更换风格。五类职责共有十五种风格；保留当前会话作为 PI，其他职责按需启用。五套完整组合在可选入口里，见 [团队说明](docs/teams.md)。
+菜单默认英文，可在顶部 Language 切换为中文；也可以在聊天中明确要求中文菜单。切换保留已选成员和当前步骤。先选用途，再核对团队，点击每行的 Edit / 调整更换风格。五类职责共有十五种风格；保留当前会话作为 PI，其他职责按需启用。五套完整组合在可选入口里，见 [团队说明](docs/teams.md)。
 
 只有宿主明确支持内嵌 HTML 时才显示交互菜单；否则直接提供文字选择。安装 Skill 不会给所有客户端注册一个页面。支持聊天桥接时，请按客户端提示确认发送；否则复制或手动选中完整指令，粘贴发送到聊天。配置完成后再说明题目、可用资料、预算和希望执行的阶段。只配置团队不会创建科研目录或启动研究。
 
@@ -62,7 +62,14 @@ Install from Codex chat:
 $skill-installer https://github.com/ymping666/CodexLab/tree/main/skills/codexlab
 ```
 
-On your next message, in your research project:
+On your next message, in your research project, optionally choose a team first:
+
+```text
+$codexlab Help me choose a research team. Show the English menu.
+Configure the team only; do not start research.
+```
+
+The menu defaults to English, with an English / 中文 selector that preserves your choices. After configuring a team, describe your topic and scope, or skip team setup and request a bounded task directly:
 
 ```text
 $codexlab Study reliable evaluation of long-horizon AI agents.

@@ -10,6 +10,7 @@ import sys
 from pathlib import Path
 
 SLOTS = ("pi", "literature", "method", "experiment", "reviewer")
+LANGUAGES = ("en", "zh-CN")
 
 
 class PrepareError(ValueError):
@@ -48,8 +49,15 @@ def validate_catalog(catalog: object) -> dict:
     if set(categories) != set(SLOTS):
         raise PrepareError("Unexpected or duplicate role category IDs.")
     names: set[str] = set()
+    def validate_translation(item: dict, fields: tuple[str, ...]) -> None:
+        translations = item.get("translations")
+        translation = translations.get("zh-CN") if isinstance(translations, dict) else None
+        if not isinstance(translation, dict) or not all(isinstance(translation.get(key), str) and translation[key].strip() for key in fields):
+            raise PrepareError("Expected complete Simplified Chinese display translations.")
+
     for slot in SLOTS:
         category = categories[slot]
+        validate_translation(category, ("label",))
         if category.get("required") is not (slot == "pi"):
             raise PrepareError("Only PI is required.")
         profiles = category.get("profiles")
@@ -58,6 +66,7 @@ def validate_catalog(catalog: object) -> dict:
         for profile in profiles:
             if not all(profile.get(key) for key in ("name", "style", "summary", "deliverable", "instructions", "watch_out")):
                 raise PrepareError(f"Incomplete profile in {slot}.")
+            validate_translation(profile, ("style", "summary", "deliverable", "watch_out"))
             if profile["name"] in names:
                 raise PrepareError("Profile names must be unique.")
             names.add(profile["name"])
@@ -70,6 +79,7 @@ def validate_catalog(catalog: object) -> dict:
     for preset in presets:
         if not all(preset.get(key) for key in ("id", "label", "when", "tradeoff")) or not valid_selection(preset.get("selection"), categories):
             raise PrepareError("Incomplete or invalid preset.")
+        validate_translation(preset, ("label", "when", "tradeoff"))
         if preset["id"] in preset_ids:
             raise PrepareError("Recommendation IDs must be unique.")
         preset_ids.add(preset["id"])
@@ -80,6 +90,7 @@ def validate_catalog(catalog: object) -> dict:
     for entry in entries:
         if not all(entry.get(key) for key in ("id", "title", "summary", "reason", "tradeoff")) or not valid_selection(entry.get("selection"), categories):
             raise PrepareError("Incomplete or invalid onboarding entry point.")
+        validate_translation(entry, ("title", "summary", "reason", "tradeoff"))
         if entry["id"] in entry_ids:
             raise PrepareError("Onboarding entry point IDs must be unique.")
         entry_ids.add(entry["id"])
@@ -95,7 +106,10 @@ def embed(fragment: str, element_id: str, value: object) -> str:
     return result
 
 
-def prepare(output: str | Path, selection: object = None, ignore_saved_state: bool = False) -> Path:
+def prepare(output: str | Path, selection: object = None, ignore_saved_state: bool = False,
+            language: str | None = None) -> Path:
+    if language is not None and language not in LANGUAGES:
+        raise PrepareError("Language must be en or zh-CN.")
     target = safe_path(output)
     if target.exists():
         raise PrepareError(f"Output already exists; nothing overwritten: {target}")
@@ -111,6 +125,7 @@ def prepare(output: str | Path, selection: object = None, ignore_saved_state: bo
     fragment = embed(fragment, "codexlab-picker-options", {
         "selection": selection,
         "ignoreSavedState": bool(ignore_saved_state or selection is not None),
+        "language": language,
     })
     with target.open("x", encoding="utf-8", newline="\n") as stream:
         stream.write(fragment)
@@ -122,10 +137,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--output", required=True)
     parser.add_argument("--selection", help="JSON object with pi, literature, method, experiment, reviewer; null disables a specialist")
     parser.add_argument("--ignore-saved-state", action="store_true")
+    parser.add_argument("--language", choices=LANGUAGES, help="Initial interface language; defaults to English, or a compatible saved preference")
     args = parser.parse_args(argv)
     try:
         selection = json.loads(args.selection) if args.selection is not None else None
-        target = prepare(args.output, selection, args.ignore_saved_state)
+        target = prepare(args.output, selection, args.ignore_saved_state, args.language)
     except (PrepareError, OSError, ValueError, KeyError, TypeError) as error:
         print(f"codexlab role picker: {error}", file=sys.stderr)
         return 2

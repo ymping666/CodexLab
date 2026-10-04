@@ -31,7 +31,7 @@ class StylePickerHelperTests(unittest.TestCase):
         result = self.run_helper()
         self.assertEqual(result.returncode,0,result.stderr)
         self.assertEqual(self.payload('codexlab-style-catalog'),json.loads((self.skill/'references/catalog.json').read_text(encoding='utf-8')))
-        self.assertEqual(self.payload('codexlab-picker-options'),{'selection':None,'ignoreSavedState':False})
+        self.assertEqual(self.payload('codexlab-picker-options'),{'selection':None,'ignoreSavedState':False,'language':None})
         self.assertEqual(sorted(p.name for p in self.root.iterdir()),['preview.html','skill'])
 
     def test_no_overwrite_and_no_implicit_parent_creation(self):
@@ -55,7 +55,25 @@ class StylePickerHelperTests(unittest.TestCase):
         choice = {'pi':'Quinn','literature':'Flint','method':'Mira','experiment':None,'reviewer':'Trace'}
         result = self.run_helper('--selection',json.dumps(choice))
         self.assertEqual(result.returncode,0,result.stderr)
-        self.assertEqual(self.payload('codexlab-picker-options'),{'selection':choice,'ignoreSavedState':True})
+        self.assertEqual(self.payload('codexlab-picker-options'),{'selection':choice,'ignoreSavedState':True,'language':None})
+
+    def test_explicit_language_is_embedded_without_initializing_research(self):
+        result = self.run_helper('--language','zh-CN')
+        self.assertEqual(result.returncode,0,result.stderr)
+        self.assertEqual(self.payload('codexlab-picker-options')['language'],'zh-CN')
+        self.assertEqual(sorted(p.name for p in self.root.iterdir()),['preview.html','skill'])
+
+    def test_unknown_language_is_rejected_without_output(self):
+        self.assertEqual(self.run_helper('--language','unknown').returncode,2)
+        self.assertFalse(self.target.exists())
+
+    def test_incomplete_display_translation_is_rejected_without_output(self):
+        catalog_file = self.skill/'references/catalog.json'
+        catalog = json.loads(catalog_file.read_text(encoding='utf-8'))
+        del catalog['categories'][2]['profiles'][0]['translations']['zh-CN']['summary']
+        catalog_file.write_text(json.dumps(catalog,ensure_ascii=False),encoding='utf-8')
+        self.assertEqual(self.run_helper().returncode,2)
+        self.assertFalse(self.target.exists())
 
     def test_catalog_extends_without_code_changes_and_cannot_close_script(self):
         catalog_file = self.skill/'references/catalog.json'
